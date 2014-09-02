@@ -41,3 +41,14 @@ We will be building this bookmarking system from the ground up in several stages
 10. Implementing an API
 11. Creating multiple API clients
 12. Optimizing for performance
+
+Homework 1 — Create a New Project
+---------------------------------
+
+1. Create a new c9.io workspace for your individual project.
+2. Initialize a new Git repository for your project.
+3. Create a README.md file that provides a brief description of your project.
+4. Define the 'atomic unit' for your project, and model it using a simple schema. See `bookmarkSchema.js` as a reference.
+5. Define (approximately) the HTML representation for your data model. See `bookmarkTemplate.html` as a reference.
+6. Create an index.html that lists out a few examples of your data.
+7. Add and commit your README.md, index.html, schema.js, and template.html files.
