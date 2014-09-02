@@ -28,7 +28,7 @@ Approach
 --------
 We will be building this bookmarking system from the ground up in several stages:
 
-1. A simple, static HTML mock up
+1. A simple, static HTML mockup
 2. Separating Data from HTML
 3. Storing Data using LocalStorage
 4. Implementing Create, Read, Update, Delete
