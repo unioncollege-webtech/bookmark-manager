@@ -1,25 +1,31 @@
 <!doctype html>
-<html lang="en">
-
+<html>
 <head>
     <meta charset="utf-8">
-    <title>Bookmark Service</title>
+    <title>Bookmarks</title>
 </head>
-
 <body>
-    <ul>
-        <li>
-            <article class="bookmark">
-                <h1><a class="bookmark" href="http://www.reddit.com/" title="reddit" target="_blank">reddit</a></h1>
-                <p class="description">reddit: The front page of the internet.</p>
-            </article>
-        </li>
-        <li>
-            <article class="bookmark">
-                <h1><a class="bookmark" href="http://www.youtube.com/" title="YouTube" target="_blank">YouTube</a></h1>
-            </article>
-        </li>
-    </ul>
-</body>
+    <!-- Container for our bookmarks -->
+    <section class="bookmark-container"></section>
 
+    <!-- Include the Handlebars JavaScript library -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.4/handlebars.js"></script>
+
+    <!-- Bookmark Template: The HTML rendered for each bookmark. -->
+    <script id="bookmark-template" type="text/x-handlebars-template">
+        <article class="bookmark">
+            <h1><a class="bookmark" href="{{url}}" title="{{title}}">{{title}}</a></h1>
+            {{#if description}}
+                <p class="description">{{description}}</p>
+            {{/if}}
+        </article>
+    </script>
+
+
+    <!-- Load our bookmarks data file -->
+    <script src="bookmarks.js"></script>
+
+    <!-- Run the JavaScript to load the bookmarks into the page -->
+    <script src="loadBookmarks.js"></script>
+</body>
 </html>

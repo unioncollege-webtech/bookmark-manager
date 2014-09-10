@@ -28,9 +28,9 @@ Approach
 --------
 We will be building this bookmarking system from the ground up in several stages:
 
-1. A simple, static HTML mockup
-2. Separating Data from HTML
-3. Storing Data using LocalStorage
+1. [Defining our Data with JavaScript Object Notation]
+2. [Generating HTML from JavaScript]
+3. Using JSON Data
 4. Implementing Create, Read, Update, Delete
 5. Using Handlebars to render the data
 6. Storing Data on the Server using Node.js
@@ -44,7 +44,6 @@ We will be building this bookmarking system from the ground up in several stages
 
 Homework 1 — Create a New Project
 ---------------------------------
-
 1. Create a new c9.io workspace for your individual project.
 2. Initialize a new Git repository for your project.
 3. Create a README.md file that provides a brief description of your project.
@@ -52,3 +51,7 @@ Homework 1 — Create a New Project
 5. Define (approximately) the HTML representation for your data model. See `bookmarkTemplate.html` as a reference.
 6. Create an index.html that lists out a few examples of your data.
 7. Add and commit your README.md, index.html, schema.js, and template.html files.
+
+
+[Defining our Data with JavaScript Object Notation]: https://github.com/unioncollege-webtech/bookmarks/blob/master/1.%20Defining%20our%20Data%20with%20JavaScript%20Object%20Notation.md
+[Generating HTML from JavaScript]: https://github.com/unioncollege-webtech/bookmarks/blob/master/2.%20Generating%20HTML.md
