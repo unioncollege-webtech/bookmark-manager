@@ -1,4 +1,4 @@
-renderBookmarks([{
+[{
     "id": 1,
     "url": "https://www.atlassian.com/git/tutorial/git-basics",
     "title": "Atlassian's Git Tutorial",
@@ -58,4 +58,4 @@ renderBookmarks([{
     "title": "Cloud9 IDE",
     "created": "Thu Sep 04 2014 15:35:17 GMT-0500 (CDT)",
     "description": "Cloud9 combines a powerful online code editor with a full Ubuntu workspace in the cloud"
-}]);
+}]
