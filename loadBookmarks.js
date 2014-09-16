@@ -120,108 +120,14 @@ function renderBookmarksWithTemplate(bookmarks) {
  * Render the passed bookmarks to the page.
  *
  * - bookmarks: An Array of objects that contain the bookmark's properties.
+ *
+ * Note: This is currently just an alias to `renderBookmarksWithTemplate`.
  */
 window.renderBookmarks = renderBookmarksWithTemplate;
 
-/**
- * getJSON
- * -------
- * Asynchronously fetch a JSON file and parse it.
- *
- * - path:             A String specifying the location of the JSON file.
- * - callback( json ): A Function to be executed when the JSON file is retrieved
- *                     and parsed. The function will be passed the parsed json
- *                     data.
- *
- * Returns undefined.
- */
-function getJSON(path, callback) {
-    var xhr = new XMLHttpRequest();
-    xhr.open("get", path, true);
-    xhr.onload = function() {
-        callback.call(this, JSON.parse(this.responseText));
-    };
-    xhr.send();
-}
 
+// Load our bookmarks using XMLHttpRequest:
+//getJSON('bookmarks.js', renderBookmarks);
 
-// Fetch the bookmarks as JSON data and render them.
-//getJSON("bookmarks.json", renderBookmarks);
-
-
-/**
- * getJSONP
- * --------
- * Asynchronously load a JSONP file.
- *
- * - path: A String specifying the location of the JSONP file.
- *
- * Returns undefined.
- */
-function getJSONP(path) {
-    var script = document.createElement('script');
-    script.src = path;
-    document.body.appendChild(script);
-}
-
+// Load our bookmarks as JSONP:
 getJSONP('bookmarks.js');
-
-
-/**
- * getURLParameters
- * ----------------
- * Returns an Object containing the parameters in the URL as key/value pairs. If
- * a URL parameter does not have a value, it's given the boolean value `true`.
- *
- * If there are no URL parameters, an empty object is returned.
- */
-function getURLParameters() {
-    // The `search` property on document.location contains the portion of the
-    // URL containing query parameters in the form of:
-    // '?key1=value1&key2&key3=value3'.
-    return document.location.search
-        // Remove the preceding question mark.
-        .replace(/^\?/, '')
-        // The keys are separated by an ampersand '&'.
-        .split('&')
-        // The key/value pairs are separated by an '='.
-        .map(function(query) {
-            return query.split('=');
-        })
-        // Build a JavaScript object containing the key/value pairs.
-        .reduce(function(params, pair) {
-            var key = pair[0];
-            var value = pair[1];
-            if (key) {
-                if (typeof(value) !== 'undefined') {
-                    params[key] = value;
-                }
-                else {
-                    params[key] = true;
-                }
-            }
-            return params;
-        }, {});
-}
-
-/**
- * renderBookmarksConsideringId
- * ----------------------------
- * Render the passed bookmarks to the page, but consider the `id` parameter in
- * the URL.
- *
- * - bookmarks: An Array of objects that contain the bookmark's properties.
- */
-function renderBookmarksConsideringId(bookmarks) {
-    var id = getURLParameters().id;
-
-    if (id) {
-        bookmarks = bookmarks.filter(function(bookmark) {
-            return bookmark.id == id;
-        });
-    }
-    renderBookmarksWithTemplate(bookmarks);
-}
-
-// Override the renderBookmarks with ours that considers the ID parameter.
-window.renderBookmarks = renderBookmarksConsideringId;
