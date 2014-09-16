@@ -15,7 +15,7 @@
  *
  * Returns an HTMLElement that contains the bookmark represented as HTML.
  */
-function createBookmarkElement( bookmark ) {
+function createBookmarkElement(bookmark) {
     // Per the specification, the `article` element represents a complete or
     // self-contained piece of content that's independently distributable.
     // It makes a good root element for the bookmark content.
@@ -24,23 +24,23 @@ function createBookmarkElement( bookmark ) {
 
     var titleElement = document.createElement('h1');
     var linkElement = document.createElement('a');
-    var linkText = document.createTextNode( bookmark.title );
+    var linkText = document.createTextNode(bookmark.title);
 
-    linkElement.appendChild( linkText );
+    linkElement.appendChild(linkText);
     linkElement.className = 'bookmark-link';
     linkElement.href = bookmark.url;
     linkElement.title = bookmark.title;
 
-    titleElement.appendChild( linkElement );
-    bookmarkElement.appendChild( titleElement );
+    titleElement.appendChild(linkElement);
+    bookmarkElement.appendChild(titleElement);
 
     // The description is optional, so make sure our bookmark has one.
-    if ( bookmark.description ) {
+    if (bookmark.description) {
         var descElement = document.createElement('p');
-        descElement.appendChild( document.createTextNode( bookmark.description ) );
+        descElement.appendChild(document.createTextNode(bookmark.description));
         descElement.className = 'bookmark-description';
 
-        bookmarkElement.appendChild( descElement );
+        bookmarkElement.appendChild(descElement);
     }
 
     return bookmarkElement;
@@ -55,11 +55,11 @@ function createBookmarkElement( bookmark ) {
  *
  * Returns undefined.
  */
-function renderBookmarkElements( bookmarks ) {
+function renderBookmarkElements(bookmarks) {
     var container = document.querySelector('.bookmark-container');
 
-    bookmarks.map( createBookmarkElement ).forEach(function( bookmarkElement ){
-        container.appendChild( bookmarkElement );
+    bookmarks.map(createBookmarkElement).forEach(function(bookmarkElement) {
+        container.appendChild(bookmarkElement);
     });
 }
 
@@ -81,7 +81,7 @@ var templateSource = document.getElementById('bookmark-template').innerHTML;
 // can use it to compile our template. The compiled template (bookmarkTemplate)
 // is a function that takes a context object (a bookmark) and returns the
 // generated HTML.
-var bookmarkTemplate = Handlebars.compile( templateSource );
+var bookmarkTemplate = Handlebars.compile(templateSource);
 
 /**
  * createBookmarkFromTemplate( bookmark )
@@ -92,32 +92,42 @@ var bookmarkTemplate = Handlebars.compile( templateSource );
  *
  * Returns an String containing the bookmark's HTML.
  */
-function createBookmarkFromTemplate( bookmark ) {
-    return bookmarkTemplate( bookmark );
+function createBookmarkFromTemplate(bookmark) {
+    return bookmarkTemplate(bookmark);
 }
 
 /**
  * renderBookmarksWithTemplate( bookmarks )
  * ----------------------------------------
  * Render the bookmarks as HTML, using the Handlebars template.
+ *
  * - bookmarks: An Array of objects that contain the bookmark's properties.
  *
  * Returns undefined.
  */
-function renderBookmarksWithTemplate( bookmarks ) {
+function renderBookmarksWithTemplate(bookmarks) {
     var container = document.querySelector('.bookmark-container');
 
-    bookmarks.map( createBookmarkFromTemplate ).forEach(function( bookmarkHTML ){
+    bookmarks.map(createBookmarkFromTemplate).forEach(function(bookmarkHTML) {
         container.innerHTML += bookmarkHTML;
     });
- }
+}
 
 
-// Above, we defined the following functions to render the bookmarks. We now
-// need to execute that function.
+/**
+ * renderBookmarks( bookmarks )
+ * ----------------------------
+ * Render the passed bookmarks to the page.
+ *
+ * - bookmarks: An Array of objects that contain the bookmark's properties.
+ *
+ * Note: This is currently just an alias to `renderBookmarksWithTemplate`.
+ */
+window.renderBookmarks = renderBookmarksWithTemplate;
 
-// The 'bookmarks' property is defined in bookmarks.js, which is included on
-// the page before this file.
 
-//renderBookmarkElements( window.bookmarks );
-renderBookmarksWithTemplate( window.bookmarks );
+// Load our bookmarks using XMLHttpRequest:
+//getJSON('bookmarks.js', renderBookmarks);
+
+// Load our bookmarks as JSONP:
+getJSONP('bookmarks.js');
