@@ -1,11 +1,3 @@
-// Generating HTML using the Document Object Model
-// ===============================================
-// The first approach we're going to take is to define a function that
-// transforms our data into a tree of HTML elements. We'll be using the Document
-// Object Model, which provides a programmatic interface to an HTML document.
-// With DOM methods, we can dynamically create elements from JavaScript and
-// add them to the page.
-
 /**
  * createBookmarkElement( bookmark )
  * ---------------------------------
@@ -63,23 +55,6 @@ function renderBookmarkElements(bookmarks) {
     });
 }
 
-
-
-
-// Using a Template Engine
-// =======================
-// A third way to generate HTML from our JavaScript objects is to use a template
-// engine such as Mustache or Handlebars. Templates allow us to define the
-// structure of our HTML in a way that looks very close to the final rendered
-// HTML. The template engine is then responsible for merging the template and
-// the JavaScript content.
-
-// The handlebars.js library must be loaded before this JavaScript file so we
-// can use it to compile our template.
-
-// The `bookmark` template has been precompiled, and is stored as
-// `Handlebars.templates.bookmark`.
-
 /**
  * renderBookmarksWithTemplate( bookmarks )
  * ----------------------------------------
@@ -87,16 +62,19 @@ function renderBookmarkElements(bookmarks) {
  *
  * - bookmarks: An Array of objects that contain the bookmark's properties.
  *
+ * Requires handlebars.runtime.js, templates.js
+ *
  * Returns undefined.
  */
 function renderBookmarksWithTemplate(bookmarks) {
     var container = document.querySelector('.bookmark-container');
 
+    // `Handlebars.templates.bookmark` has been precompiled from the
+    // 'bookmark.handlebars' source file and is defined in 'templates.js'.
     bookmarks.map(Handlebars.templates.bookmark).forEach(function(bookmarkHTML) {
         container.innerHTML += bookmarkHTML;
     });
 }
-
 
 /**
  * renderBookmarks( bookmarks )
@@ -105,13 +83,29 @@ function renderBookmarksWithTemplate(bookmarks) {
  *
  * - bookmarks: An Array of objects that contain the bookmark's properties.
  *
+ * Required By: bookmarks.js
+ *
  * Note: This is currently just an alias to `renderBookmarksWithTemplate`.
  */
 window.renderBookmarks = renderBookmarksWithTemplate;
 
+/**
+ * init()
+ * ------
+ * Initialize our application.
+ *
+ * Requires #renderBookmarks
+ * Requires util.js#getJSONP
+ *
+ * Returns undefined.
+ */
+function init() {
+    // Load our bookmarks using XMLHttpRequest:
+    //getJSON('bookmarks.js', renderBookmarks);
 
-// Load our bookmarks using XMLHttpRequest:
-//getJSON('bookmarks.js', renderBookmarks);
+    // Load our bookmarks as JSONP:
+    getJSONP('bookmarks.js');
+}
 
-// Load our bookmarks as JSONP:
-getJSONP('bookmarks.js');
+// Initialize our application
+init();
