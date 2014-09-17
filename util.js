@@ -3,13 +3,12 @@
  * -------------------------
  * Asynchronously fetch and parse a JSON file.
  *
- * - path              A String specifying the location of the JSON file.
+ * - path            : A String specifying the location of the JSON file.
  * - callback( data ): A Function to be executed when the JSON file is retrieved
  *                     and parsed. The function will be passed the following
  *                     arguments:
  *
- *                     - data: A JavaScript Object containing the parsed JSON
- *                             data.
+ *                     - data: An Object containing the parsed JSON data.
  *
  * Example:
  *
