@@ -29,7 +29,7 @@ Approach
 We will be building this bookmarking system from the ground up in several stages:
 
 1. [Defining our Data with JavaScript Object Notation]
-2. [Generating HTML from JavaScript]
+2. [Generating HTML from JavaScript] (see also [Precompiling Handlebars Templates])
 3. [Using JSON Data]
 4. Implementing Create, Read, Update, Delete
 5. Using Handlebars to render the data
@@ -55,4 +55,5 @@ Homework 1 — Create a New Project
 
 [Defining our Data with JavaScript Object Notation]: https://github.com/unioncollege-webtech/bookmarks/blob/master/1.%20Defining%20our%20Data%20with%20JavaScript%20Object%20Notation.md
 [Generating HTML from JavaScript]: https://github.com/unioncollege-webtech/bookmarks/blob/master/2.%20Generating%20HTML.md
+[Precompiling Handlebars Templates]: https://github.com/unioncollege-webtech/bookmarks/blob/master/2.1%20Precompiling%20Handlebars%20Templates.md
 [Using JSON Data]: https://github.com/unioncollege-webtech/bookmarks/blob/master/3.%20Using%20JSON%20Data.md
