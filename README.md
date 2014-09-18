@@ -57,3 +57,4 @@ Homework 1 — Create a New Project
 [Generating HTML from JavaScript]: https://github.com/unioncollege-webtech/bookmarks/blob/master/2.%20Generating%20HTML.md
 [Precompiling Handlebars Templates]: https://github.com/unioncollege-webtech/bookmarks/blob/master/2.1%20Precompiling%20Handlebars%20Templates.md
 [Using JSON Data]: https://github.com/unioncollege-webtech/bookmarks/blob/master/3.%20Using%20JSON%20Data.md
+
