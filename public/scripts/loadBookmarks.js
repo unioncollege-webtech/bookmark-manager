@@ -104,7 +104,7 @@ function init() {
     //getJSON('bookmarks.js', renderBookmarks);
 
     // Load our bookmarks as JSONP:
-    getJSONP('bookmarks.js');
+    getJSONP('/data/bookmarks.js');
 }
 
 // Initialize our application

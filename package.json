@@ -1,0 +1,23 @@
+{
+  "name": "bookmarks",
+  "version": "4.0.0",
+  "description": "Bookmarks is a simple, social bookmarking service to help you keep track of your favorite places on the web. It provides a simple and beautiful listing of bookmarks, and the capability to search, sort, tag, favorite, and share a collection of links.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/unioncollege-webtech/bookmarks.git"
+  },
+  "author": "Benjamin Barber",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/unioncollege-webtech/bookmarks/issues"
+  },
+  "homepage": "https://github.com/unioncollege-webtech/bookmarks",
+  "dependencies": {
+    "express": "^4.9.5",
+    "hbs": "^2.7.0"
+  }
+}

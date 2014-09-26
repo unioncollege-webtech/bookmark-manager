@@ -1,0 +1,14 @@
+{{#error}}
+<p>{{message}}</p>
+{{/error}}
+
+<ul class="bookmark-container">
+{{#bookmarks}}
+    <li class="bookmark">
+        <h1>
+            <a class="bookmark external" href="{{url}}" title="{{title}}">{{title}}</a>
+            <small>(<a class="bookmark" href="/bookmarks/{{id}}" title="{{title}}">details</a>)</small>
+        </h1>
+    </li>
+{{/bookmarks}}
+</ul>
