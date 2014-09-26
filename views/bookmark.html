@@ -1,10 +1,40 @@
+{{!--
+
+  bookmark — Render the full details for a single bookmark
+  --------------------------------------------------------
+  The 'bookmark' template renders the complete details for a bookmark. It makes
+  use of the following context variables:
+
+  - `bookmark` : A Bookmark object containing the following properties:
+
+                 - `url`   : A String containing a fully-qualified URL to the
+                                bookmarked page.
+                  - `title` : A String containing a title, headline, or name of
+                                the document at the destination url.
+                  - `id`    : A String containing the internal identifier for
+                                the bookmark.
+
+  - `notification` : An (optional) Notification object, whose presence indicates
+                     that an error or event has occurred. A Notification
+                     contains the following properties:
+
+                     - `message` : A String containing a user-friendly message.
+                     - `severity`: A String indicating the type of notification.
+                                     This may have any value, but will typically
+                                     be one of 'error', 'warn', 'info', or
+                                     'affirm'. (optional)
+
+--}}
+
 <a href="/" class="back">Back</a>
 
-{{#error}}
-<p>{{message}}</p>
-{{/error}}
+{{#notification}}
+<!-- Something happened: -->
+<p class="message {{severity}}">{{message}}</p>
+{{/notification}}
 
 {{#bookmark}}
+<!-- Render the full details for a single bookmark -->
 <article class="bookmark">
     <h1><a class="bookmark external" href="{{url}}" title="{{title}}">{{title}}</a></h1>
     {{#if description}}

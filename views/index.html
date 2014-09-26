@@ -1,6 +1,34 @@
-{{#error}}
-<p>{{message}}</p>
-{{/error}}
+{{!--
+
+  index — Render a list of bookmarks
+  ----------------------------------
+  The 'index' template renders a brief summary of several bookmarks. It makes
+  use of the following context variables:
+
+  - `bookmarks` : An (optional) Array of Bookmark objects containing the
+                  following required properties:
+
+                  - `url`   : A String containing a fully-qualified URL to the
+                                bookmarked page.
+                  - `title` : A String containing a title, headline, or name of
+                                the document at the destination url.
+                  - `id`    : A String containing the internal identifier for
+                                the bookmark.
+
+  - `notification` : An (optional) Notification object, whose presence indicates
+                     that an error or event has occurred. A Notification
+                     contains the following properties:
+
+                     - `message` : A String containing a user-friendly message.
+                     - `severity`: A String indicating the type of notification.
+                                     This may have any value, but will typically
+                                     be one of 'error', 'warn', 'info', or
+                                     'affirm'. (optional)
+--}}
+
+{{#notification}}
+<p class="message {{severity}}">{{message}}</p>
+{{/notification}}
 
 <ul class="bookmark-container">
 {{#bookmarks}}

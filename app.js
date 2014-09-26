@@ -29,9 +29,9 @@ app.get('/', function(req, res, next) {
 
 
 // List all bookmarks
-app.get('/bookmarks', function(req, res, next){
+app.get('/bookmarks', function(req, res, next) {
     // Currently, just redirect to the homepage.
-   res.redirect('/');
+    res.redirect('/');
 });
 
 
@@ -50,7 +50,8 @@ app.get('/bookmarks/:id', function(req, res, next) {
     else {
         res.render('bookmark', {
             title: "Bookmark does not exist.",
-            error: {
+            notification: {
+                severity: "error",
                 message: "Oh, snap—no bookmark exists with that id! ☹"
             }
         });
@@ -62,8 +63,10 @@ app.get('/bookmarks/:id', function(req, res, next) {
 app.use(function(req, res) {
     console.warn('404 Not Found: %s', req.originalUrl);
     res.status(404).render('index', {
-        error: {
-            message: "Oh noes! The page you requested doesn’t exist. That really sucks."
+        notification: {
+            severity: "error",
+            message: "Oh noes! The page you requested doesn’t exist. That\
+                      really sucks."
         }
     });
 });
@@ -74,10 +77,12 @@ app.use(function(err, req, res, next) {
     console.error(err.stack);
 
     res.status(500).render('index', {
-        error: {
+        notification: {
+            severity: "error",
             message: "I’m so sorry, but something is wrong and internal\
-        errors are occuring. This sucks, but the developers have been alerted\
-        and will (hopefully) have the issue resolved shortly."
+                      errors are occuring. This sucks, but the developers have\
+                      been alerted and will (hopefully) have the issue resolved\
+                      shortly."
         }
     });
 });
