@@ -6,16 +6,17 @@ This introduction to Express is going to cover Express 4.0, which has some signi
 
 ## Installing Express
 
-   npm install express
+    npm install express
 
 ## Creating an Express server
-   var express = require(‘express’);
-   var app = express();
-   app.listen(port, ip);
+
+    var express = require('express');
+    var app = express();
+    app.listen(port, ip);
 
 ## Middleware
 
-   app.use(function(req, res, next){})
+    app.use(function(req, res, next){})
 
 ## Request object
 
@@ -23,31 +24,40 @@ This introduction to Express is going to cover Express 4.0, which has some signi
 
 ## Routes
 
-   app.get(function(req, res){
+    app.get(function(req, res){
 
-  });
+    });
 
 ## Serving Static files
 
-   app.use(express.static(__dirname + ‘/public’));
+    app.use(express.static(__dirname + '/public'));
 
 ## Views and Layouts
 
 - Setting up Handlebars
-- ‘views’ directory
+- 'views' directory
 - Layouts
 
-   res.render(‘layout’, {});
+    res.render('layout', {});
 
-   app.locals
+    app.locals
 
 ## Dynamic data
 
-   app.param()
+    req.query
+    req.params
+    req.body
+    req.param
+    req.cookies
 
-- bodyParser()
-- cookieParser()
-- session()
+## Common Middlware
+
+- [body-parser](https://github.com/expressjs/body-parser)
+- [cookie-parser](https://github.com/expressjs/cookie-parser)
+- [session](https://github.com/expressjs/session)
+- [serve-index](https://github.com/expressjs/serve-index)
+- [compression](https://github.com/expressjs/compression)
+- [passport](https://github.com/jaredhanson/passport)
 
 ## Error Handling
 

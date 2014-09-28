@@ -5,18 +5,18 @@ Introduction to npm...
 
 Installing modules
 -------------------
-   npm install <module>
+    npm install <module>
 
 - Example of using an installed module from a .js script
 - Explanation of how Node.js searches for modules (http://nodejs.org/api/modules.html#modules_loading_from_node_modules_folders)
 
-   npm uninstall <module>
+    npm uninstall <module>
 
 
 Authoring Modules
 -----------------
 
-   npm init
+    npm init
 
 - package.json format
 - Dependencies
@@ -29,19 +29,22 @@ Authoring Modules
 
 Local-only modules
 ------------------
-   npm link
+
+    npm link
+
 
 Installing Dependencies
 -----------------------
-   npm install
 
-   npm install --dev
+    npm install
+
+    npm install --dev
 
 
 Publishing modules
 ------------------
 
-   npm adduser
-   npm publish
+    npm adduser
+    npm publish
 
 - Tagging releases
