@@ -1,0 +1,49 @@
+{{!--
+
+  bookmark_edit — Render the edit form for a bookmark.
+  ----------------------------------------------------
+  The 'bookmark' template renders a form for editing the details of a bookmark.
+  It will use a bookmark object if provided, or an empty form otherwise.
+
+  - `bookmark` : A Bookmark object containing the following properties:
+
+                 - `url`   : A String containing a fully-qualified URL to the
+                               bookmarked document or resource (optional).
+                 - `title` : A String containing a title, headline, or name of
+                               the resource at the destination url (optional).
+                 - `id`    : A String containing the internal identifier for
+                               the bookmark object (optional).
+                 - `description` : A String containing a brief description of
+                               the bookmarked resource (optional).
+
+  - `notification` : An (optional) Notification object, whose presence indicates
+                     that an error or event has occurred. A Notification
+                     contains the following properties:
+
+                     - `message` : A String containing a user-friendly message.
+                     - `severity`: A String indicating the type of notification.
+                                     This may have any value, but will typically
+                                     be one of 'error', 'warn', 'info', or
+                                     'affirm'. (optional)
+--}}
+
+<a href="/" class="back">Back</a>
+
+{{#notification}}
+<!-- Something happened: -->
+<p class="message {{severity}}">{{message}}</p>
+{{/notification}}
+
+<!-- Render an edit form for a bookmark -->
+<form class="bookmark-form" action="" method="POST">
+    <label>URL <input type="url" name="url" value="{{bookmark.url}}" required placeholder="http://www.example.com" title="A valid URL is required."></label>
+    <label>Title <input type="text" name="title" value="{{bookmark.title}}" placeholder="My Awesome Example Website"></label>
+    <label for="description">Description <textarea name="description">{{bookmark.description}}</textarea></label>
+    <p>
+        <button class="btn save" type="submit">Save</button>
+        {{#if bookmark.id}}
+            <button formaction="/bookmarks/{{bookmark.id}}/delete" formmethod="POST" class="btn delete" type="submit">Delete</button>
+        {{/if}}
+        <a class="btn" href="/">Cancel</a>
+    </p>
+</form>

@@ -2,6 +2,17 @@ body {
     max-width: 720px;
     margin: auto;
     font-family: Source Sans Pro, Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-size: 1.4em;
+    padding: 1em;
+}
+h1 {
+    font-size: 1.2em;
+}
+h2 {
+    font-size: 1.1em;
+}
+h3 {
+    font-size: 1.05em;
 }
 a {
     color: #333;
@@ -10,9 +21,41 @@ a {
 a:hover {
     text-decoration: underline;
 }
-a.back:before {
+a.btn {
+    background: white;
+    box-shadow: none;
+}
+.back:before {
     content: '← ';
 }
 .bookmark-container {
     list-style: none;
+}
+form label {
+    display: block;
+    margin-bottom: 1.1em;
+}
+input,
+textarea {
+    width: 94%;
+    border: 1px solid #ddd;
+    border-radius: 0;
+    box-shadow: none;
+    -webkit-appearance: none;
+}
+textarea {
+    min-height: 5em;
+}
+.btn,
+button {
+    background-color: #eee;
+    box-shadow: 0 0 5px #ddd inset;
+    border-radius: 3px;
+    border: 0;
+    padding: .25em .5em;
+}
+@media screen and (max-width: 640px) {
+    body {
+        font-size: 14px;
+    }
 }
