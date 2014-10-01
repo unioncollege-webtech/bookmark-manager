@@ -21,21 +21,21 @@
         "description": "Github is a powerful collaboration, code review, and code management for open source and private projects. "
     },
     {
-        "id": 6,
+        "id": "6",
         "url": "http://contribute.jquery.org/style-guide/js/",
         "title": "jQuery Project's JavaScript Style Guide",
         "created": "Thu Sep 04 2014 15:35:17 GMT-0500 (CDT)",
         "description": "In general, the jQuery style guide encourages liberal spacing for improved human readability."
     },
     {
-        "id": 7,
+        "id": "7",
         "url": "http://superherojs.com/",
         "title": "Superhero.js",
         "created": "Thu Sep 04 2014 15:35:17 GMT-0500 (CDT)",
         "description": "Creating, testing and maintaining a large JavaScript code base is not easy — especially since great resources on how to do this are hard to find. Superhero.js is a collection of the best articles, videos and presentations on the topic."
     },
     {
-        "id": 8,
+        "id": "8",
         "url": "http://www.codethinked.com/preparing-yourself-for-modern-javascript-development",
         "title": "Preparing Yourself for Modern JavaScript Development",
         "created": "Thu Sep 04 2014 15:35:17 GMT-0500 (CDT)",
@@ -54,5 +54,12 @@
         "title": "Cloud9 IDE",
         "created": "Thu Sep 04 2014 15:35:17 GMT-0500 (CDT)",
         "description": "Cloud9 combines a powerful online code editor with a full Ubuntu workspace in the cloud"
+    },
+    {
+        "id": 11,
+        "url": "https://github.com/typicode/lowdb",
+        "title": "LowDB – Flat JSON file database for Node",
+        "description": "LowDB uses Lo-Dash functional programming API instead of a MongoDB-like API for a flat file .json databases.",
+        "created": "Tue Sep 30 2014 21:23:45 GMT+0000 (UTC)"
     }
 ]

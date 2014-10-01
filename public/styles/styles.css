@@ -1,29 +1,32 @@
 body {
     max-width: 720px;
     margin: auto;
+}
+body,
+input,
+textarea,
+button,
+.btn,
+h1,
+h2,
+h3,
+h4,
+h5 {
     font-family: Source Sans Pro, Helvetica Neue, Helvetica, Arial, sans-serif;
-    font-size: 1.4em;
-    padding: 1em;
 }
-h1 {
-    font-size: 1.2em;
+a:hover,
+.nav a:hover,
+.navbar a:hover {
+    text-decoration: underline;
+    color: #2575ed;
 }
-h2 {
-    font-size: 1.1em;
-}
-h3 {
-    font-size: 1.05em;
-}
-a {
+a,
+a.btn {
     color: #333;
     text-decoration: none;
 }
-a:hover {
-    text-decoration: underline;
-}
-a.btn {
-    background: white;
-    box-shadow: none;
+.add:before {
+    content: '+ ';
 }
 .back:before {
     content: '← ';
@@ -34,30 +37,4 @@ a.btn {
 form label {
     display: block;
     margin-bottom: 1.1em;
-}
-input,
-textarea {
-    width: 94%;
-    border: 1px solid #ddd;
-    border-radius: 0;
-    box-shadow: none;
-    -webkit-appearance: none;
-    font-size: 1em;
-}
-textarea {
-    min-height: 6em;
-}
-.btn,
-button {
-    background-color: #eee;
-    box-shadow: 0 0 5px #ddd inset;
-    border-radius: 3px;
-    border: 0;
-    padding: .25em .5em;
-    font-size: 1em;
-}
-@media screen and (max-width: 640px) {
-    body {
-        font-size: 14px;
-    }
 }
