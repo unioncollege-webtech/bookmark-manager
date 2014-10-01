@@ -49,6 +49,11 @@ app.get('/bookmarks/add', function(req, res, next) {
 app.post('/bookmarks/add', saveBookmark);
 
 function saveBookmark(req, res, next) {
+
+    if (req.body.action === 'delete') {
+        return deleteBookmark(req, res, next);
+    }
+
     var bookmark = {
         id: req.params.id,
         url: req.body.url,
@@ -75,6 +80,32 @@ function saveBookmark(req, res, next) {
     });
 }
 
+function deleteBookmark(req, res, next) {
+    var bookmark = Bookmarks.findById(req.params.id);
+
+    if (bookmark) {
+        console.warn("Deleting bookmark:", bookmark);
+
+        Bookmarks.remove(bookmark, function(err, bookmark) {
+            if (err) {
+                res.render('bookmark_edit', {
+                    title: "Edit bookmark: " + bookmark.title,
+                    bookmark: bookmark,
+                    notification: {
+                        severity: "error",
+                        message: "Could not delete bookmark: " + err
+                    }
+                });
+            }
+            else {
+                res.redirect('/');
+            }
+        });
+    }
+    else {
+        res.redirect('/');
+    }
+}
 
 // Respond to requests for a specific bookmark
 app.get('/bookmarks/:id', function(req, res, next) {
@@ -117,32 +148,11 @@ app.get('/bookmarks/:id/edit', function(req, res, next) {
         });
     }
 });
+
 // Persist edits for a bookmark
 app.post('/bookmarks/:id/edit', saveBookmark);
-
-app.post('/bookmarks/:id/delete', function(req, res, next) {
-    var bookmark = Bookmarks.findById(req.params.id);
-    if (bookmark) {
-        Bookmarks.remove(bookmark, function(err, bookmark) {
-            if (err) {
-                res.render('bookmark_edit', {
-                    title: "Edit bookmark: " + bookmark.title,
-                    bookmark: bookmark,
-                    notification: {
-                        severity: "error",
-                        message: "Could not delete bookmark: " + err
-                    }
-                });
-            }
-            else {
-                res.redirect('/');
-            }
-        });
-    }
-    else {
-        res.redirect('/');
-    }
-});
+// Delete a bookmark
+app.post('/bookmarks/:id/delete', deleteBookmark);
 
 // 404 Not Found handler
 app.use(function(req, res) {
