@@ -42,9 +42,10 @@ textarea {
     border-radius: 0;
     box-shadow: none;
     -webkit-appearance: none;
+    font-size: 1em;
 }
 textarea {
-    min-height: 5em;
+    min-height: 6em;
 }
 .btn,
 button {
@@ -53,6 +54,7 @@ button {
     border-radius: 3px;
     border: 0;
     padding: .25em .5em;
+    font-size: 1em;
 }
 @media screen and (max-width: 640px) {
     body {
