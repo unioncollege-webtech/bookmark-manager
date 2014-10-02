@@ -63,8 +63,10 @@ function saveBookmark(req, res, next) {
 
         if (!bookmark) {
             bookmark = new Bookmark();
+            bookmark.created = Date();
         }
 
+        // TODO: Validate url and title.
         bookmark.set({
             url: req.body.url,
             title: req.body.title || req.body.url,
