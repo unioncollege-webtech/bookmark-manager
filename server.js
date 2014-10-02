@@ -3,7 +3,7 @@ var hbs = require('hbs');
 var bodyParser = require('body-parser');
 
 // Load the Bookmark model
-var Bookmark = require('./Bookmark');
+var Bookmark = require('./models/Bookmark');
 
 // Create a new express app.
 var app = express();
@@ -26,14 +26,13 @@ app.use(bodyParser.urlencoded({
 
 // Register the the index route
 app.get('/', function(req, res, next) {
-
+    // Find all of the bookmarks and render.
     Bookmark.find(function(err, bookmarks) {
         res.render('index', {
             title: "Bookmarks",
             bookmarks: bookmarks
         });
     });
-
 });
 
 
