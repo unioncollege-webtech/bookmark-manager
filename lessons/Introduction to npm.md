@@ -21,7 +21,7 @@ Authoring Modules
 - package.json format
 - Dependencies
 
-   npm install --save
+    npm install --save
 
 - Licensing considerations (ISC/MIT/BSD/etc.)
 - Versioning considerations
