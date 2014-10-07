@@ -2,6 +2,10 @@ var express = require('express');
 var hbs = require('hbs');
 var bodyParser = require('body-parser');
 
+// Connect to our mongod server
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://' + (process.env.IP || 'localhost') + '/bookmarks');
+
 // Load the Bookmark model
 var Bookmark = require('./models/Bookmark');
 

@@ -1,8 +1,5 @@
 var mongoose = require('mongoose');
 
-// Connect to our mongod server
-mongoose.connect('mongodb://' + (process.env.IP || 'localhost') + '/bookmarks');
-
 // Define the schema for a bookmark
 var schema = new mongoose.Schema({
     /**
