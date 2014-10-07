@@ -66,3 +66,6 @@
         {{/if}}
     </p>
 </form>
+{{#unless bookmark.id}}
+<footer><small>Want to add bookmarks even more quickly? Drag the <a href="javascript:({{{bookmarklet}}})()" title="Bookmark This!" class="btn smaller">Bookmark This!</a> bookmarklet to your bookmarks bar, and click it to bookmark the current page.</small></footer>
+{{/unless}}

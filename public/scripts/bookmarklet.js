@@ -6,7 +6,7 @@ module.exports = function() {
     if (description) {
         description = description.getAttribute('content')
     }
-    var data = 'url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(title) + '&description=' + encodeURIComponent(description),
+    var data = 'url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(title) + '&description=' + encodeURIComponent(description||''),
         xhr = new XMLHttpRequest();
     xhr.onload = function() {
         if (this.status == 200) {
