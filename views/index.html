@@ -36,12 +36,13 @@
 <p class="message {{severity}}">{{message}}</p>
 {{/notification}}
 
+<p class="search"><input name="filter" type="text" placeholder="Search" class="width-100" <autofocus></autofocus>></p>
 <ul class="bookmark-container">
 {{#bookmarks}}
     <li class="bookmark">
         <h1>
             <a class="bookmark external" href="{{url}}" title="{{title}}">{{title}}</a>
-            <small>(<a class="bookmark" href="/bookmarks/{{id}}" title="{{title}}">details</a>)</small>
+            <small>(<a class="details" href="/bookmarks/{{id}}" title="{{title}}">details</a>)</small>
         </h1>
     </li>
 {{/bookmarks}}
