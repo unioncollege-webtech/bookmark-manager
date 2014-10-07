@@ -1,14 +1,17 @@
 var mongoose = require('mongoose');
 
 // Connect to our mongod server
-mongoose.connect('mongodb://'+ (process.env.IP || 'localhost') + '/bookmarks');
+mongoose.connect('mongodb://' + (process.env.IP || 'localhost') + '/bookmarks');
 
 // Define the schema for a bookmark
 var schema = new mongoose.Schema({
     /**
      * url - A String containing the URL of the bookmarked item.
      */
-    url: String,
+    url: {
+        type: String,
+        required: true
+    },
     /**
      * title - A String representing a brief, human-readable title for the
      *         bookmark.
