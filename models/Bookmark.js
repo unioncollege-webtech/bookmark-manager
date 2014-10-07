@@ -10,7 +10,7 @@ var schema = new mongoose.Schema({
      */
     url: {
         type: String,
-        required: true
+        required: 'A URL is required.'
     },
     /**
      * title - A String representing a brief, human-readable title for the
