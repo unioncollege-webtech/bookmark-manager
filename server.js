@@ -24,13 +24,15 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 
-// Enable cross-origin posts to /add
+// Encode the bookmarklet function and make available to templates.
+var bookmarklet = require('./public/scripts/bookmarklet');
+app.locals.bookmarklet = encodeURIComponent(bookmarklet);
+
+// Enable cross-origin posts to /add (to support bookmarklet)
 app.use(function(req, res, next){
    res.set('Access-Control-Allow-Origin', '*');
    next();
 });
-
-app.locals.bookmarklet = encodeURIComponent(require('./public/scripts/bookmarklet').toString());
 
 // Register the the index route
 app.get('/', function(req, res, next) {
