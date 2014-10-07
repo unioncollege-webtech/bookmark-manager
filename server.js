@@ -28,15 +28,37 @@ app.use(bodyParser.urlencoded({
 var bookmarklet = require('./public/scripts/bookmarklet');
 app.locals.bookmarklet = encodeURIComponent(bookmarklet);
 
-// Enable cross-origin posts to /add (to support bookmarklet)
-app.use(function(req, res, next){
-   res.set('Access-Control-Allow-Origin', '*');
-   next();
+// Enable cross-origin posts to /bookmarks/add (to support bookmarklet)
+app.use(function(req, res, next) {
+    res.set('Access-Control-Allow-Origin', '*');
+    next();
+});
+
+// Find bookmark by id and store on the response for routes with :bookmark param
+app.param("bookmark", function(req, res, next, id) {
+    Bookmark.findById(id, function(err, bookmark) {
+        if (bookmark) {
+            res.bookmark = bookmark;
+            next(err);
+        }
+        else {
+            if (err) {
+                console.log("Caught error fetching bookmark id " + id, err);
+            }
+            res.status(404).render('bookmark', {
+                title: "Bookmark does not exist.",
+                notification: {
+                    severity: "error",
+                    message: "Oh, snap—no bookmark exists with that id! ☹"
+                }
+            });
+        }
+    });
 });
 
 // Register the the index route
 app.get('/', function(req, res, next) {
-    // Find all of the bookmarks and render.
+    // Find all of the bookmarks and render newest to oldest
     Bookmark.find().sort('-created').exec(function(err, bookmarks) {
         res.render('index', {
             title: "Bookmarks",
@@ -52,7 +74,7 @@ app.get('/bookmarks', function(req, res, next) {
     res.redirect('/');
 });
 
-// Add a new bookmark.
+// Show an edit form to add a new bookmark.
 app.get('/bookmarks/add', function(req, res, next) {
     // Render an empty bookmark edit form.
     res.render('bookmark_edit', {
@@ -60,65 +82,36 @@ app.get('/bookmarks/add', function(req, res, next) {
     });
 });
 
+// Handle form posts for new bookmarks
 app.post('/bookmarks/add', saveBookmark);
 
 function saveBookmark(req, res, next) {
-
+    // If they clicked the 'delete' button, delete the bookmark instead of save.
     if (req.body.action === 'delete') {
         return deleteBookmark(req, res, next);
     }
 
-    Bookmark.findById(req.params.id, function(err, bookmark) {
+    var bookmark = res.bookmark;
+    if (!bookmark) {
+        bookmark = new Bookmark();
+        bookmark.created = Date();
+    }
 
-        if (!bookmark) {
-            bookmark = new Bookmark();
-            bookmark.created = Date();
-        }
-
-        // TODO: Validate url and title.
-        bookmark.set({
-            url: req.body.url,
-            title: req.body.title || req.body.url,
-            description: req.body.description || ''
-        });
-
-        bookmark.save(function(err) {
-            if (err) {
-                res.render('bookmark_edit', {
-                    title: "Error saving bookmark!:" + bookmark.title,
-                    bookmark: bookmark,
-                    notification: {
-                        severity: "error",
-                        message: "A bad thing happened: " + err
-                    }
-                });
-            }
-            else {
-                res.redirect('/');
-            }
-        });
+    // TODO: Validate url and title.
+    bookmark.set({
+        url: req.body.url,
+        title: req.body.title || req.body.url,
+        description: req.body.description || ''
     });
-}
 
-function deleteBookmark(req, res, next) {
-
-    Bookmark.findById(req.params.id, function(err, bookmark) {
-
-        if (bookmark) {
-            console.warn("Deleting bookmark:", bookmark);
-
-            Bookmark.remove(bookmark, function(err) {
-                if (err) {
-                    res.render('bookmark_edit', {
-                        title: "Delete bookmark failed!",
-                        notification: {
-                            severity: "error",
-                            message: "Could not delete bookmark: " + err
-                        }
-                    });
-                }
-                else {
-                    res.redirect('/');
+    bookmark.save(function(err) {
+        if (err) {
+            res.render('bookmark_edit', {
+                title: "Error saving bookmark!:" + bookmark.title,
+                bookmark: bookmark,
+                notification: {
+                    severity: "error",
+                    message: "A bad thing happened: " + err
                 }
             });
         }
@@ -128,56 +121,54 @@ function deleteBookmark(req, res, next) {
     });
 }
 
+function deleteBookmark(req, res, next) {
+
+    var bookmark = res.bookmark;
+    if (bookmark) {
+        console.warn("Deleting bookmark:", bookmark);
+
+        Bookmark.remove(bookmark, function(err) {
+            if (err) {
+                res.render('bookmark_edit', {
+                    title: "Delete bookmark failed!",
+                    notification: {
+                        severity: "error",
+                        message: "Could not delete bookmark: " + err
+                    }
+                });
+            }
+            else {
+                res.redirect('/');
+            }
+        });
+    }
+    else {
+        res.redirect('/');
+    }
+}
+
 // Respond to requests for a specific bookmark
-app.get('/bookmarks/:id', function(req, res, next) {
-
-    Bookmark.findById(req.params.id, function(err, bookmark) {
-
-        if (bookmark) {
-            res.render('bookmark', {
-                title: "Bookmark: " + bookmark.title,
-                bookmark: bookmark
-            });
-        }
-        else {
-            res.render('bookmark', {
-                title: "Bookmark does not exist.",
-                notification: {
-                    severity: "error",
-                    message: "Oh, snap—no bookmark exists with that id! ☹"
-                }
-            });
-        }
+app.get('/bookmarks/:bookmark', function(req, res, next) {
+    var bookmark = res.bookmark;
+    res.render('bookmark', {
+        title: "Bookmark: " + bookmark.title,
+        bookmark: bookmark
     });
-
 });
 
 // Render the edit form for a bookmark.
-app.get('/bookmarks/:id/edit', function(req, res, next) {
-    Bookmark.findById(req.params.id, function(err, bookmark) {
-
-        if (bookmark) {
-            res.render('bookmark_edit', {
-                title: "Edit bookmark: " + bookmark.title,
-                bookmark: bookmark
-            });
-        }
-        else {
-            res.render('bookmark', {
-                title: "Bookmark does not exist.",
-                notification: {
-                    severity: "error",
-                    message: "Oh, snap—no bookmark exists with that id! ☹"
-                }
-            });
-        }
+app.get('/bookmarks/:bookmark/edit', function(req, res, next) {
+    var bookmark = res.bookmark;
+    res.render('bookmark_edit', {
+        title: "Edit bookmark: " + bookmark.title,
+        bookmark: bookmark
     });
 });
 
 // Persist edits for a bookmark
-app.post('/bookmarks/:id/edit', saveBookmark);
+app.post('/bookmarks/:bookmark/edit', saveBookmark);
 // Delete a bookmark
-app.post('/bookmarks/:id/delete', deleteBookmark);
+app.post('/bookmarks/:bookmark/delete', deleteBookmark);
 
 // 404 Not Found handler
 app.use(function(req, res) {
