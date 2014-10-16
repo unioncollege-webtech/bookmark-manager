@@ -33,10 +33,7 @@
     </ul>
 </nav>
 
-{{#notification}}
-<!-- Something happened: -->
-<p class="message {{severity}}">{{message}}</p>
-{{/notification}}
+{{> notification_bar }}
 
 <!-- Render an edit form for a bookmark -->
 <form class="bookmark-form" action="" method="POST">

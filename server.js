@@ -1,6 +1,7 @@
 var express = require('express');
-var hbs = require('hbs');
 var bodyParser = require('body-parser');
+var hbs = require('hbs');
+var hbsutils = require('hbs-utils')(hbs);
 
 // Connect to our mongod server
 var mongoose = require('mongoose');
@@ -15,6 +16,9 @@ var app = express();
 // Register the hbs engine for the 'html' extension
 app.set('view engine', 'html');
 app.engine('html', hbs.__express);
+
+// Set up template partials
+hbsutils.registerWatchedPartials('views/partials');
 
 // Set the port and ip address (just as a convenience)
 app.set('port', process.env.PORT || 3000);
@@ -101,7 +105,6 @@ function saveBookmark(req, res, next) {
         bookmark.created = Date();
     }
 
-    // TODO: Validate url and title.
     bookmark.set({
         url: req.body.url,
         title: req.body.title || req.body.url,
@@ -110,14 +113,32 @@ function saveBookmark(req, res, next) {
 
     bookmark.save(function(err) {
         if (err) {
-            res.render('bookmark_edit', {
-                title: "Error saving bookmark!:" + bookmark.title,
-                bookmark: bookmark,
-                notification: {
-                    severity: "error",
-                    message: "A bad thing happened: " + err
+            if (err.name === 'ValidationError') {
+                // Validation Error
+                var notifications = [];
+                for (var validator in err.errors) {
+                    notifications.push({
+                        severity: "error",
+                        message: err.errors[validator].message
+                    });
                 }
-            });
+                res.render('bookmark_edit', {
+                    title: "Edit bookmark: " + bookmark.title,
+                    bookmark: bookmark,
+                    notification: notifications
+                });
+            }
+            else {
+                // General error
+                res.render('bookmark_edit', {
+                    title: "Error saving bookmark: " + bookmark.title,
+                    bookmark: bookmark,
+                    notification: {
+                        severity: "error",
+                        message: "A bad thing happened: " + err
+                    }
+                });
+            }
         }
         else {
             res.redirect('/');
