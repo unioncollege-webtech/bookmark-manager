@@ -1,3 +1,26 @@
+{{!--
+  notification_bar - Show errors and notification messages
+  --------------------------------------------------------
+  The notification_bar partial renders notification messages. It can be used on
+  any page and will render the `notification` object in the context.
+
+  - `notification` : An (optional) Notification object, whose presence indicates
+                     that an error or event has occurred. `notification` may be
+                     a single Notification or an Array of Notification objects.
+
+                     A Notification contains the following properties:
+
+                     - `message` : A String containing a user-friendly message.
+                     - `severity`: A String indicating the type of notification.
+                                     This may have any value, but will typically
+                                     be one of 'error', 'warn', 'info', or
+                                     'affirm'. (optional)
+
+  Example:
+
+      {{> notification_bar }}
+
+--}}
 {{#notification}}
 <p class="message {{severity}}">{{message}}</p>
 {{/notification}}
