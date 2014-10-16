@@ -41,6 +41,13 @@ a.btn {
     margin: 0;
     padding: 0;
 }
+.message {
+    padding: .25em .5em;
+}
+.message.error {
+    background-color: #fdd;
+    border: 1px solid #fcc;
+}
 form label {
     display: block;
     margin-bottom: 1.1em;
@@ -48,7 +55,7 @@ form label {
 footer {
     margin-top: 10em;
 }
-@media screen and (max-width:640px) {
+@media screen and (max-width: 640px) {
     h1 {
         font-size: 1.75em;
     }
