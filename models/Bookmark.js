@@ -29,11 +29,11 @@ var schema = new mongoose.Schema({
  * create_date - The `created` property represented as a formatted String.
  */
 schema.virtual('create_date').get(function() {
-    return this.created.toLocaleDateString("en-US", {
-        weekday: "long",
-        month: "long",
-        day: "numeric",
-        year: "numeric"
+    return this.created.toLocaleDateString('en-US', {
+        weekday: 'long',
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric'
     });
 });
 
