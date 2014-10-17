@@ -25,6 +25,23 @@ var schema = new mongoose.Schema({
     created: Date
 });
 
+/**
+ * create_date - The `created` property represented as a formatted String.
+ */
+schema.virtual('create_date').get(function() {
+    return this.created.toLocaleDateString("en-US", {
+        weekday: "long",
+        month: "long",
+        day: "numeric",
+        year: "numeric"
+    });
+});
+
+// Expose virtual properties when toObject is called.
+schema.set('toObject', {
+    getters: true,
+    virtuals: true
+});
 // Export the model
 var Bookmark = mongoose.model('bookmark', schema);
 module.exports = Bookmark;
