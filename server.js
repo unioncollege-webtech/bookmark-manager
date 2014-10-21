@@ -47,11 +47,12 @@ app.param("bookmark", function(req, res, next, id) {
     Bookmark.findById(id, function(err, bookmark) {
         if (bookmark) {
             res.bookmark = bookmark;
+            // Err should be null, but pass it along if we have it.
             next(err);
         }
         else {
             if (err) {
-                console.log("Caught error fetching bookmark id " + id, err);
+                console.warn("Caught error fetching bookmark id " + id, err);
             }
             res.status(404).render('bookmark', {
                 title: "Bookmark does not exist.",
