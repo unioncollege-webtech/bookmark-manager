@@ -19,34 +19,65 @@ search.use(function(req, res, next) {
 // Route for the search query.
 search.get('/', function(req, res, next) {
     // Build up the base query object
-    var query = {};
+    var query = Bookmark.find();
 
-    // Keyword is in the 'q' query parameter.
-    if (req.query.q) {
-        query.$text = {
-            $search: req.query.q
-        };
-    }
-    // Do a sub-string match on hostname if the RexExp is not invalid.
-    if (req.query.hostname) {
+    // Filter by hostname
+    var hn = req.query.hostname;
+    if (hn) {
         try {
-            query['url.hostname'] = new RegExp(req.query.hostname);
+            hn = new RegExp(hn);
         }
         catch (e) {
-            query['url.hostname'] = req.query.hostname;
-            console.warn(e);
+            // Do a sub-string match on hostname if the RexExp is not invalid.
+            console.warn("Bad regex pattern: %s", e);
         }
+        query.and({
+            'url.hostname': hn
+        });
     }
-    // Execute the query.
-    Bookmark.find(query).sort('-created').exec(function(err, bookmarks) {
+
+    // Do a sub-string match on title, description, OR href
+    var q = req.query.q;
+    if (q) {
+        try {
+            q = new RegExp(q, 'i');
+        }
+        catch (e) {
+            console.warn("Bad regex pattern: %s", e);
+        }
+        query.or([{
+            title: q
+        }, {
+            description: q
+        }, {
+            href: q
+        }]);
+    }
+
+    // Sort by create time, descending
+    query.sort('-created');
+    // Execute the query!
+    query.exec(function(err, bookmarks) {
         if (err) {
             return next(err);
         }
-        res.render('search', {
-            title: "Bookmarks",
+
+        var response = {
             bookmarks: bookmarks,
-            query: req.query
-        });
+        };
+
+        if (req.query.format === 'json') {
+            return res.json(response);
+        }
+        else if (req.query.format === 'jsonp') {
+            return res.jsonp(response);
+        }
+        else {
+            // Add additional information into the context.
+            response.title = "Bookmarks - Search Results",
+                response.query = req.query;
+            return res.render('search', response);
+        }
     });
 });
 

@@ -43,7 +43,12 @@ function getJSON(path, callback) {
  * Returns undefined.
  */
 function getJSONP(path) {
+    var body = document.body;
     var script = document.createElement('script');
+
     script.src = path;
-    document.body.appendChild(script);
+    body.appendChild(script);
+    script.onload = function() {
+        body.removeChild(script);
+    };
 }

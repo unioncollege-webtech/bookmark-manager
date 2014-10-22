@@ -4,11 +4,11 @@
   ==========================================
 
 --}}
-<form action="/search" class="search-form">
+<form action="/search" class="search-form ajaxsearch">
   <label>Keyword
     <input name="q" type="text" placeholder="Enter keyword (searches title, description, url)" class="width-100" autofocus value="{{query.q}}">
   </label>
-  <label">Hostname
+  <label>Hostname
     <input name="hostname" type="text" placeholder="example.com" class="width-100" value="{{query.hostname}}" list="hostnames">
   </label>
   <datalist id="hostnames">
