@@ -56,6 +56,7 @@ search.get('/', function(req, res, next) {
 
     // Sort by create time, descending
     query.sort('-created');
+
     // Execute the query!
     query.exec(function(err, bookmarks) {
         if (err) {

@@ -3,7 +3,7 @@
   bookmark_edit — Render the edit form for a bookmark.
   ====================================================
   The 'bookmark' template renders a form for editing the details of a bookmark.
-  It will use a bookmark object if provided, or an empty form otherwise.
+  It will use a bookmark object if pro._ided, or an empty form otherwise.
 
   - `bookmark` : A Bookmark object containing the following properties:
 
@@ -11,7 +11,7 @@
                                bookmarked document or resource (optional).
                  - `title` : A String containing a title, headline, or name of
                                the resource at the destination url (optional).
-                 - `id`    : A String containing the internal identifier for
+                 - ._id`    : A String containing the internal._identifier for
                                the bookmark object (optional).
                  - `description` : A String containing a brief description of
                                the bookmarked resource (optional).
@@ -33,17 +33,17 @@
     <p>
         <button type="submit" name="action" value="save" class="btn btn-green">Save</button>
         <a class="btn" href="/">Cancel</a>
-        {{#if bookmark.id}}
+        {{#if bookmark._id}}
             <button type="submit"
                     class="btn btn-red right"
                     name="action"
                     value="delete"
-                    formaction="/bookmarks/{{bookmark.id}}/delete"
+                    formaction="/bookmarks/{{bookmark._id}}/delete"
                     formmethod="POST"
                     onclick="return confirm('Are you sure you want to delete this bookmark?');">Delete</button>
         {{/if}}
     </p>
 </form>
-{{#unless bookmark.id}}
+{{#unless bookmark._id}}
 <footer><small>Want to add bookmarks more quickly? Drag the <a href="javascript:({{{bookmarklet}}})()" title="Bookmark This!" class="bookmarklet btn smaller">Bookmark This!</a> bookmarklet to your bookmarks bar, and use it to bookmark the current page as you browse.</small></footer>
 {{/unless}}

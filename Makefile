@@ -8,3 +8,6 @@ urls=\
 public/styles/kube.un.css : public/styles/kube.css views/*.html
 	uncss $(urls) --stylesheets /styles/kube.css \
 	| cleancss > $@
+
+templates:
+	handlebars views/partials/bookmark_list.html --extension html --knownOnly --min --output public/scripts/templates.js

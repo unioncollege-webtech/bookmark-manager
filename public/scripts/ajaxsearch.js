@@ -5,29 +5,21 @@
  * fields, and render the results to the search-results container.
  */
 (function initAjaxSearch() {
-    // Find the bookmark elements
-    var results = document.querySelector('.search-results');
     var keyword = document.querySelector('.ajaxsearch input[name="q"]');
     var hostname = document.querySelector('.ajaxsearch input[name="hostname"]');
-    var lastQuery = '';
-
-    var execSearch = function() {
-        var q = encodeURIComponent(this.value);
-        var hn = encodeURIComponent(hostname.value);
-        var query = '/search?q=' + q + '&hostname=' + hn + '&format=jsonp&callback=renderResults';
-
-        if (query !== lastQuery) {
-            lastQuery = query;
-            getJSONP(query);
-        }
-    };
+    var results = document.querySelector('.search-results');
+    var template = Handlebars.templates.bookmark_list;
 
     if (results && keyword && hostname) {
         // Filter the items on every key press
-        keyword.onkeyup = hostname.onkeyup = execSearch;
-    }
+        keyword.onkeyup = hostname.onkeyup = function() {
+            getJSONP('/search?q=' + encodeURIComponent(keyword.value) +
+                '&hostname=' + encodeURIComponent(hostname.value) +
+                '&format=jsonp&callback=renderResults');
+        };
 
-    window.renderResults = function(res) {
-        results.innerHTML = Handlebars.templates.bookmark_list(res);
-    };
+        window.renderResults = function(res) {
+            results.innerHTML = template(res);
+        };
+    }
 })();
