@@ -1,7 +1,7 @@
 {{!--
 
   bookmark_edit — Render the edit form for a bookmark.
-  ----------------------------------------------------
+  ====================================================
   The 'bookmark' template renders a form for editing the details of a bookmark.
   It will use a bookmark object if provided, or an empty form otherwise.
 
@@ -16,17 +16,6 @@
                  - `description` : A String containing a brief description of
                                the bookmarked resource (optional).
 --}}
-
-{{> navigation_bar }}
-
-<nav class="navbar">
-    <ul>
-        <li><a href="/" class="back">Back</a></li>
-    </ul>
-</nav>
-
-{{> notification_bar }}
-
 <!-- Render an edit form for a bookmark -->
 <form class="bookmark-form" action="" method="POST">
     <label>

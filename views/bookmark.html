@@ -1,7 +1,7 @@
 {{!--
 
   bookmark — Render the full details for a single bookmark
-  --------------------------------------------------------
+  ========================================================
   The 'bookmark' template renders the complete details for a bookmark. It makes
   use of the following context variables:
 
@@ -16,16 +16,6 @@
                   - `description` : A String containing a brief description of
                                 the bookmarked resource (optional).
 --}}
-{{> navigation_bar }}
-
-<nav class="navbar">
-    <ul>
-        <li><a href="/" class="back">Back</a></li>
-    </ul>
-</nav>
-
-{{> notification_bar }}
-
 {{#bookmark}}
 <!-- Render the full details for a single bookmark -->
 <article class="bookmark">
