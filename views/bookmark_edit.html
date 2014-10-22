@@ -7,7 +7,7 @@
 
   - `bookmark` : A Bookmark object containing the following properties:
 
-                 - `url`   : A String containing a fully-qualified URL to the
+                 - `href`   : A String containing a fully-qualified URL to the
                                bookmarked document or resource (optional).
                  - `title` : A String containing a title, headline, or name of
                                the resource at the destination url (optional).
@@ -17,9 +17,11 @@
                                the bookmarked resource (optional).
 --}}
 
+{{> navigation_bar }}
+
 <nav class="navbar">
     <ul>
-        <a href="/" class="back">Back</a>
+        <li><a href="/" class="back">Back</a></li>
     </ul>
 </nav>
 
@@ -29,7 +31,7 @@
 <form class="bookmark-form" action="" method="POST">
     <label>
         URL
-        <input type="url" name="url" value="{{bookmark.url}}" required placeholder="http://www.example.com" title="A valid URL is required." class="width-100">
+        <input type="url" name="url" value="{{bookmark.href}}" required placeholder="http://www.example.com" title="A valid URL is required." class="width-100">
     </label>
     <label>
         Title

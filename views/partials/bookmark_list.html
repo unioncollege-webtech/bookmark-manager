@@ -1,0 +1,27 @@
+{{!--
+  bookmark_list.html - Render the bookmarks that are in the current context.
+  --------------------------------------------------------------------------
+  The bookmark_list partial renders bookmarks that are in the current context as
+  a list. It makes use of the following context objects:
+
+  - `bookmarks` : An (optional) Array of Bookmark objects containing the
+                  following required properties:
+
+                  - `href`   : A String containing a fully-qualified URL to the
+                                bookmarked page.
+                  - `title` : A String containing a title, headline, or name of
+                                the document at the destination url.
+                  - `id`    : A String containing the internal identifier for
+                                the bookmark.
+
+--}}
+<ul class="bookmark-container">
+{{#bookmarks}}
+    <li class="bookmark">
+        <h1>
+            <a class="bookmark external" href="{{href}}" title="{{title}}">{{title}}</a>
+            <small>(<a class="details" href="/bookmarks/{{id}}" title="{{title}}">details</a>)</small>
+        </h1>
+    </li>
+{{/bookmarks}}
+</ul>

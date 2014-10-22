@@ -42,6 +42,8 @@ app.use(function(req, res, next) {
     next();
 });
 
+app.use('/search', require('./routes/search').search);
+
 // Find bookmark by id and store on the response for routes with :bookmark param
 app.param("bookmark", function(req, res, next, id) {
     Bookmark.findById(id, function(err, bookmark) {
@@ -103,11 +105,10 @@ function saveBookmark(req, res, next) {
     var bookmark = res.bookmark;
     if (!bookmark) {
         bookmark = new Bookmark();
-        bookmark.created = Date();
     }
 
     bookmark.set({
-        url: req.body.url,
+        href: req.body.url,
         title: req.body.title || req.body.url,
         description: req.body.description || ''
     });
