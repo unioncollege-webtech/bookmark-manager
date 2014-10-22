@@ -63,20 +63,24 @@ search.get('/', function(req, res, next) {
             return next(err);
         }
 
+        // The response object
         var response = {
             bookmarks: bookmarks,
         };
 
+        // Send the response as JSON if `format=json` is requested
         if (req.query.format === 'json') {
             return res.json(response);
         }
+        // Send the response as JSONP if `format=json` is requested AND a `callback` parameter is included.
         else if (req.query.format === 'jsonp') {
             return res.jsonp(response);
         }
+        // Otherwise send a normal rendered HTML response.
         else {
             // Add additional information into the context.
-            response.title = "Bookmarks - Search Results",
-                response.query = req.query;
+            response.title = "Bookmarks - Search Results";
+            response.query = req.query;
             return res.render('search', response);
         }
     });
