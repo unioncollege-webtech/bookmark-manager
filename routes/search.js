@@ -48,9 +48,11 @@ search.get('/', function(req, res, next) {
         query.or([{
             title: q
         }, {
-            description: q
-        }, {
             href: q
+        }, {
+            '$text': {
+                '$search': req.query.q
+            }
         }]);
     }
 
@@ -68,13 +70,15 @@ search.get('/', function(req, res, next) {
             bookmarks: bookmarks,
         };
 
-        // Send the response as JSON if `format=json` is requested
+        // Send the response as JSON if `format=json` is requested, and as
+        // JSONP if `format=json` and a `callback` parameter is provided.
         if (req.query.format === 'json') {
-            return res.json(response);
-        }
-        // Send the response as JSONP if `format=json` is requested AND a `callback` parameter is included.
-        else if (req.query.format === 'jsonp') {
             return res.jsonp(response);
+        }
+        // Send the list as pre-rendered HTML
+        else if (req.query.format === 'partial') {
+            response.layout = false;
+            return res.render('partials/bookmark_list', response);
         }
         // Otherwise send a normal rendered HTML response.
         else {

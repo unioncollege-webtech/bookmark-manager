@@ -17,12 +17,30 @@
     var results = document.querySelector('.ajaxsearch-results');
 
     if (results && keyword && hostname) {
-        // Filter the items on every key press
-        keyword.onkeyup = hostname.onkeyup = function() {
-            getJSONP('/search?q=' + encodeURIComponent(keyword.value) +
-                '&hostname=' + encodeURIComponent(hostname.value) +
-                '&format=jsonp&callback=renderResults');
+        // Define the dynamic execSearch function
+        var lastQuery;
+        var execSearch = function() {
+            // Build the query string
+            var query = '/search?q=' + encodeURIComponent(keyword.value) +
+                '&hostname=' + encodeURIComponent(hostname.value);
+
+            // Don't refire the query request unnecessarily.
+            if(query !== lastQuery) {
+                lastQuery = query;
+                getJSONP(query + '&format=json&callback=renderResults');
+
+                // Update the URL with the current search query
+                if('replaceState' in history) {
+                    history.replaceState(query, '', query);
+                }
+            }
         };
+
+        // Filter the items on every key press
+        var inputs = [keyword, hostname];
+        inputs.forEach(function(input){
+            input.addEventListener('keyup', execSearch);
+        });
 
         // Use the precompiled `bookmark_list` template to render the bookmarks
         var template = Handlebars.templates.bookmark_list;

@@ -1,9 +1,9 @@
 {{!--
 
-  bookmark — Render the full details for a single bookmark
+  bookmark_detail — Render the full details for a single bookmark
   ========================================================
-  The 'bookmark' template renders the complete details for a bookmark. It makes
-  use of the following context variables:
+  The 'bookmark_detail' template renders the complete details for a bookmark. It
+  makes use of the following context variable:
 
   - `bookmark` : A Bookmark object containing the following properties:
 
@@ -11,12 +11,12 @@
                                 bookmarked document or resource.
                   - `title` : A String containing a title, headline, or name of
                                 the resource at the destination url.
-                  - `i_d`    : A String containing the internal identifier for
+                  - `_id`    : A String containing the internal identifier for
                                 the bookmark object.
                   - `description` : A String containing a brief description of
                                 the bookmarked resource (optional).
 --}}
-{{#bookmark}}
+{{#bookmarks}}
 <!-- Render the full details for a single bookmark -->
 <article class="bookmark">
     <h1><a class="bookmark external" href="{{href}}" title="{{title}}">{{title}}</a></h1>
@@ -26,4 +26,4 @@
     {{/if}}
     <p class="edit"><a class="btn" href="/bookmarks/{{_id}}/edit/">Edit</a></p>
 </article>
-{{/bookmark}}
+{{/bookmarks}}
