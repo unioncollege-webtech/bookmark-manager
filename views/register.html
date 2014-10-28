@@ -1,0 +1,21 @@
+{{!--
+
+  register — Render the edit form to register a new user
+  ======================================================
+
+--}}
+<h1>Create a new account</h1>
+<form class="registration-form" action="/register" method="POST">
+    <label>
+        Email
+        <input type="email" name="username" required title="A valid email address is required." placeholder="joe@example.com" class="width-100">
+    </label>
+    <label>
+        Password
+        <input type="password" name="password" required title="You must provide a password." placeholder="Make it a good one!" class="width-100">
+    </label>
+    <p>
+        <button type="submit" name="action" value="save" class="btn btn-green">Register</button>
+        <a class="btn" href="/">Cancel</a>
+    </p>
+</form>
