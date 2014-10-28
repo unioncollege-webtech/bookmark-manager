@@ -40,6 +40,8 @@
         var inputs = [keyword, hostname];
         inputs.forEach(function(input){
             input.addEventListener('keyup', execSearch);
+            // `input` event fires when a datalist option is selected
+            input.addEventListener('input', execSearch);
         });
 
         // Use the precompiled `bookmark_list` template to render the bookmarks

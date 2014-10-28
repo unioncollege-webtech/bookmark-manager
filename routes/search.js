@@ -36,7 +36,7 @@ search.get('/', function(req, res, next) {
         });
     }
 
-    // Do a sub-string match on title, description, OR href
+    // Sub-string match on title or href, or $text index search.
     var q = req.query.q;
     if (q) {
         try {
