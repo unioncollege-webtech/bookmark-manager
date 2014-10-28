@@ -52,3 +52,36 @@ function getJSONP(path) {
         body.removeChild(script);
     };
 }
+
+/**
+ * getText( path, callback )
+ * -------------------------
+ * Asynchronously fetch a snippet of text or HTML.
+ *
+ * - `path`             : A String specifying request path.
+ * - `callback( data )` : A Function to be executed when the text is retrieved.
+ *                        When the function executes, `this` refers to the
+ *                        XMLHttpRequest object used to make the request.
+ *                        Additionally, the function will be passed the
+ *                        following arguments:
+ *
+ *                        - `text`: A String containing the response text.
+ *
+ * Example:
+ *
+ *     // Fetch a HTML document and log the response to the console.
+ *     getText('bookmarks.html', function( text ) {
+ *         console.dir( text );
+ *     });
+ *
+ * Returns undefined.
+ */
+function getText(path, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('get', path, true);
+    xhr.onload = function(ev) {
+        var text = this.responseText;
+        callback.call(this, text);
+    };
+    xhr.send();
+}
