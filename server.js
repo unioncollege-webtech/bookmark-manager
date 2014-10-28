@@ -1,5 +1,11 @@
 var express = require('express');
+
+// Standard express modules
 var bodyParser = require('body-parser');
+var session = require('express-session');
+var cookieParser = require('cookie-parser');
+
+// Handlebars modules
 var hbs = require('hbs');
 var hbsutils = require('hbs-utils')(hbs);
 
@@ -31,6 +37,17 @@ app.use(express.static('public'));
 app.use(bodyParser.urlencoded({
     extended: false
 }));
+
+// Enable sessions and cookies for authentication.
+app.use(cookieParser('Courage, dear heart.'));
+app.use(session({
+  secret: 'What makes a king out of a slave? Courage!',
+  resave: true,
+  saveUninitialized: true
+}));
+
+// Load our authentication-based routes.
+require('./routes/authentication')(app);
 
 // Encode the bookmarklet function and make available to templates.
 var bookmarklet = require('./public/scripts/bookmarklet');

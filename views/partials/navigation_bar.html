@@ -4,10 +4,24 @@
   ================================================
 
 --}}
-<nav class="navbar primary-nav">
-    <ul>
-        <li><a href="/" class="home">Home</a></li>
-        <li><a href="/search" class="search">Search</a></li>
-        <li><a href="/bookmarks/add" class="add">Add</a></li>
-    </ul>
-</nav>
+<section class="group">
+    <nav class="navbar navbar-left">
+        <ul>
+            <li><a href="/" class="home">Home</a></li>
+            <li><a href="/search" class="search">Search</a></li>
+            <li><a href="/bookmarks/add" class="add">Add</a></li>
+        </ul>
+    </nav>
+    <nav class="navbar navbar-right">
+        <ul>
+        {{#unless user}}
+            <li><a href="/register">Register</a></li>
+            <li><a href="/login">Log In</a></li>
+        {{/unless}}
+        {{#if user}}
+            <li>{{user.username}}</li>
+            <li><a href="/logout">Log Out</a></li>
+        {{/if}}
+        </ul>
+    </nav>
+</section>
