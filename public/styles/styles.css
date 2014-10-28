@@ -1,4 +1,4 @@
-header nav,
+header section,
 body > main {
     max-width: 720px;
     margin: auto;
@@ -7,6 +7,9 @@ body > main {
 body > header {
     font-size: 1.1em;
     background-color: #ddd;
+}
+header .navbar {
+    margin-bottom: 0;
 }
 body,
 input,
