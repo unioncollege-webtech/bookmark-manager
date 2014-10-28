@@ -1,7 +1,12 @@
-body {
+header nav,
+body > main {
     max-width: 720px;
     margin: auto;
     padding: 1em;
+}
+body > header {
+    font-size: 1.1em;
+    background-color: #ddd;
 }
 body,
 input,
@@ -26,11 +31,6 @@ a,
 a.btn {
     color: #333;
     text-decoration: none;
-}
-.primary-nav {
-    font-size: 1.1em;
-    padding: 1em;
-    background-color: #ddd;
 }
 .add:before {
     content: '+ ';
@@ -57,8 +57,8 @@ a.btn {
     border: 1px solid #fcc;
 }
 .search-form .actions {
-  margin: 1em 0;
-  padding-bottom: 1em;
+    margin: 1em 0;
+    padding-bottom: 1em;
 }
 form label {
     display: block;
@@ -67,7 +67,6 @@ form label {
 footer {
     margin-top: 10em;
 }
-
 @media screen and (max-width: 640px) {
     h1 {
         font-size: 1.75em;
