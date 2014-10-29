@@ -5,8 +5,6 @@ var express = require('express');
 var ensureLogin = require('connect-ensure-login');
 var ensureAuthenticated = ensureLogin.ensureAuthenticated;
 
-var Bookmark = require('../models/Bookmark');
-
 exports.setup = function() {
     var router = express.Router();
 
@@ -27,15 +25,13 @@ exports.setup = function() {
 
 
     /**
-     * :bookmark param - Find bookmark by id and store it on the response for
-     *                   routes with :bookmark param
+     * :bookmark - Find bookmark by id and store it on the request for
+     *             routes with :bookmark param.
      */
     router.param("bookmark", function(req, res, next, id) {
-        Bookmark.findForUser(req.user).findOne({
-            _id: id
-        }, function(err, bookmark) {
+        req.user.findBookmarkById(id, function(err, bookmark) {
             if (bookmark) {
-                res.bookmark = bookmark;
+                req.bookmark = bookmark;
                 // Err should be null, but pass it along if we have it.
                 next(err);
             }
@@ -60,7 +56,7 @@ exports.setup = function() {
     function listBookmarks(req, res, next) {
         if (req.user) {
             // Find all of the bookmarks and render newest to oldest
-            Bookmark.findForUser(req.user).sort('-created').exec(function(err, bookmarks) {
+            req.user.findBookmarks().sort('-created').lean().exec(function(err, bookmarks) {
                 res.render('index', {
                     title: "Bookmarks",
                     bookmarks: bookmarks
@@ -82,23 +78,25 @@ exports.setup = function() {
             // This shouldn't happen.
             return res.status(401).send("Not authorized.");
         }
+
         // If they clicked the 'delete' button, delete the bookmark instead of save.
         if (req.body.action === 'delete') {
             return deleteBookmark(req, res, next);
         }
 
-        var bookmark = res.bookmark;
+        var bookmark = req.bookmark;
         if (!bookmark) {
-            bookmark = new Bookmark();
-            bookmark.user_id = req.user._id;
+            bookmark = req.user.newBookmark();
         }
 
+        // Update the bookmark with the posted values.
         bookmark.set({
             href: req.body.url,
             title: req.body.title || req.body.url,
             description: req.body.description || ''
         });
 
+        // Save the bookmark.
         bookmark.save(function(err) {
             if (err) {
                 if (err.name === 'ValidationError') {
@@ -143,14 +141,10 @@ exports.setup = function() {
             return res.status(401).send("Not authorized.");
         }
 
-        var bookmark = res.bookmark;
+        var bookmark = req.bookmark;
         if (bookmark) {
             console.warn("Deleting bookmark:", bookmark);
-
-            Bookmark.remove({
-                _id: bookmark._id,
-                user_id: req.user._id
-            }, function(err) {
+            req.user.removeBookmark(bookmark, function(err) {
                 if (err) {
                     res.render('bookmark_edit', {
                         title: "Delete bookmark failed!",
@@ -184,7 +178,7 @@ exports.setup = function() {
      * editBookmark - Render a form to edit an existing bookmark.
      */
     function editBookmark(req, res, next) {
-        var bookmark = res.bookmark;
+        var bookmark = req.bookmark;
         res.render('bookmark_edit', {
             title: "Edit bookmark: " + bookmark.title,
             bookmark: bookmark
@@ -195,7 +189,7 @@ exports.setup = function() {
      * viewBookmark - Show the full details for an existing bookmark.
      */
     function viewBookmark(req, res, next) {
-        var bookmark = res.bookmark;
+        var bookmark = req.bookmark;
         res.render('bookmark', {
             title: "Bookmark: " + bookmark.title,
             bookmark: bookmark

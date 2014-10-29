@@ -7,8 +7,6 @@ var express = require('express');
 var ensureLogin = require('connect-ensure-login');
 var ensureAuthenticated = ensureLogin.ensureAuthenticated;
 
-var Bookmark = require('../models/Bookmark.js');
-
 // Export a function that initializes our routes for the app.
 exports.setup = function() {
     // The router to export.
@@ -16,7 +14,7 @@ exports.setup = function() {
 
     // Middleware to retrieve the list of hostnames and pass to template.
     router.all('/search', ensureAuthenticated('/login'), function(req, res, next) {
-        Bookmark.findForUser(req.user).distinct('url.hostname').exec(function(err, hostnames) {
+        req.user.findBookmarks().distinct('url.hostname').exec(function(err, hostnames) {
             res.locals.hostnames = hostnames;
             next(err);
         });
@@ -25,7 +23,7 @@ exports.setup = function() {
     // Route for the search query.
     router.get('/search', function(req, res, next) {
         // Build up the base query object
-        var query = Bookmark.findForUser(req.user);
+        var query = req.user.findBookmarks();
 
         // Filter by hostname
         var hn = req.query.hostname;
@@ -64,6 +62,7 @@ exports.setup = function() {
 
         // Sort by create time, descending
         query.sort('-created');
+        query.lean();
 
         // Execute the query!
         query.exec(function(err, bookmarks) {
