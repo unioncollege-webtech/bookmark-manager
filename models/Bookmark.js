@@ -85,6 +85,15 @@ var schema = mongoose.Schema({
     created: {
         type: Date,
         default: Date.now
+    },
+    /**
+     * user_id - The _id of the user who created this bookmark.
+     */
+    user_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
+        index: true
     }
 });
 
@@ -132,6 +141,57 @@ schema.pre('save', function(next) {
     next();
 });
 
+/**
+ * findForUser( user, callback ) - Find the bookmarks associated with a user.
+ * ==========================================================================
+ * Bookmark.findForUser() returns the bookmarks associated with the passed user.
+ *
+ * Similar to Bookmark.find(), this method will execute the query and pass the
+ * results to `callback` if callback is provided. If a callback function is not
+ * provided, `.findForUser` will return a query builder allowing you to add
+ * additional search constraints, sort, or run distinct() commands.
+ *
+ * The method takes the following arguments:
+ *
+ * - user:     The User to retrieve bookmarks for. The user must have an _id property.
+ * - callback: (Optional) A Function to pass the query results to. If `callback`
+ *               is not passed, a query builder is returned.
+ *
+ * Example:
+ *
+ *     // Search for and render all the bookmarks for a user.
+ *     Bookmark.findForUser( req.user, function(err, bookmarks) {
+ *         if(err) {
+ *            return next(err);
+ *         }
+ *         res.render('index', {
+ *             title: 'Bookmarks',
+ *             bookmarks: bookmarks,
+ *         })
+ *     });
+ *
+ *     // Find a bookmark by id
+ *     Bookmark.findForUser( req.user )
+ *             .findOne({_id: id})
+ *             .exec(function(err, bookmark) {
+ *         if(err) {
+ *            return next(err);
+ *         }
+ *         if (!bookmark) {
+ *             return res.status(404).send('Bookmark not found');
+ *         }
+ *
+ *         res.render('bookmark', {
+ *             title: 'Bookmark details',
+ *             bookmark: bookmark,
+ *         })
+ *     });
+ */
+schema.statics.findForUser = function(user, callback) {
+    return this.find({
+        user_id: (user) ? user._id : null
+    }, callback);
+};
 
 // Export the model
 var Bookmark = mongoose.model('bookmark', schema);

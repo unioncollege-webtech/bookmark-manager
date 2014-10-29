@@ -8,8 +8,10 @@
     <nav class="navbar navbar-left">
         <ul>
             <li><a href="/" class="home">Home</a></li>
+        {{#if user}}
             <li><a href="/search" class="search">Search</a></li>
             <li><a href="/bookmarks/add" class="add">Add</a></li>
+        {{/if}}
         </ul>
     </nav>
     <nav class="navbar navbar-right">

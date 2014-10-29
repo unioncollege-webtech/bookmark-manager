@@ -2,6 +2,9 @@
  * bookmarks - Routes for the /bookmark section of the website.
  */
 var express = require('express');
+var ensureLogin = require('connect-ensure-login');
+var ensureAuthenticated = ensureLogin.ensureAuthenticated;
+
 var Bookmark = require('../models/Bookmark');
 
 exports.setup = function() {
@@ -9,6 +12,7 @@ exports.setup = function() {
 
     // Register Routes
     router.get('/', listBookmarks);
+    router.all('/bookmarks/*', ensureAuthenticated('/login'));
     router.get('/bookmarks', function(req, res, next) {
         res.redirect('/');
     });
@@ -27,7 +31,9 @@ exports.setup = function() {
      *                   routes with :bookmark param
      */
     router.param("bookmark", function(req, res, next, id) {
-        Bookmark.findById(id, function(err, bookmark) {
+        Bookmark.findForUser(req.user).findOne({
+            _id: id
+        }, function(err, bookmark) {
             if (bookmark) {
                 res.bookmark = bookmark;
                 // Err should be null, but pass it along if we have it.
@@ -52,19 +58,30 @@ exports.setup = function() {
      * listBookmarks - Render the bookmarks as a list.
      */
     function listBookmarks(req, res, next) {
-        // Find all of the bookmarks and render newest to oldest
-        Bookmark.find().sort('-created').exec(function(err, bookmarks) {
-            res.render('index', {
-                title: "Bookmarks",
-                bookmarks: bookmarks
+        if (req.user) {
+            // Find all of the bookmarks and render newest to oldest
+            Bookmark.findForUser(req.user).sort('-created').exec(function(err, bookmarks) {
+                res.render('index', {
+                    title: "Bookmarks",
+                    bookmarks: bookmarks
+                });
             });
-        });
+        }
+        else {
+            res.render('index', {
+                title: "Bookmarks - Welcome!"
+            });
+        }
     }
 
     /**
      * saveBookmark - Save a new bookmark or persist changes to an existing one.
      */
     function saveBookmark(req, res, next) {
+        if (!req.user) {
+            // This shouldn't happen.
+            return res.status(401).send("Not authorized.");
+        }
         // If they clicked the 'delete' button, delete the bookmark instead of save.
         if (req.body.action === 'delete') {
             return deleteBookmark(req, res, next);
@@ -73,6 +90,7 @@ exports.setup = function() {
         var bookmark = res.bookmark;
         if (!bookmark) {
             bookmark = new Bookmark();
+            bookmark.user_id = req.user._id;
         }
 
         bookmark.set({
@@ -120,13 +138,18 @@ exports.setup = function() {
      * deleteBookmark - Remove/delete a bookmark from the database.
      */
     function deleteBookmark(req, res, next) {
-        var bookmark = res.bookmark;
+        if (!req.user) {
+            // This shouldn't happen.
+            return res.status(401).send("Not authorized.");
+        }
 
+        var bookmark = res.bookmark;
         if (bookmark) {
             console.warn("Deleting bookmark:", bookmark);
 
             Bookmark.remove({
-                _id: bookmark._id
+                _id: bookmark._id,
+                user_id: req.user._id
             }, function(err) {
                 if (err) {
                     res.render('bookmark_edit', {

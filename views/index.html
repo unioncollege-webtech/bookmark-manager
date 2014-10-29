@@ -4,7 +4,22 @@
   ==================================
 
 --}}
-
+{{#if user}}
 {{> quick_search }}
 {{> bookmark_list}}
 <script src="/scripts/quicksearch.js"></script>
+{{else}}
+<h1>Welcome to Bookmarks!</h1>
+<p class="lead">Bookmarks is the easiest way to keep track of the websites you love.</p>
+
+<section class="units-row">
+    <section class="login unit-40">
+      <h2>&nbsp;</h2>
+      {{> login_form }}
+    </section>
+    <section class="register unit-60">
+      <h2>New to Bookmarks? Sign up!</h2>
+      {{> registration_form }}
+    </section>
+</section>
+{{/if}}
