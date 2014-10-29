@@ -5,9 +5,14 @@
 
 --}}
 {{#if user}}
-{{> quick_search }}
-{{> bookmark_list}}
-<script src="/scripts/quicksearch.js"></script>
+  {{#if bookmarks.length }}
+  {{> quick_search }}
+  {{> bookmark_list}}
+  <script src="/scripts/quicksearch.js"></script>
+  {{else}}
+  <h1>Welcome!</h1>
+  <p><a href="/bookmarks/add" class="btn btn-blue">Add a bookmark</a></p>
+  {{/if}}
 {{else}}
 <h1>Welcome to Bookmarks!</h1>
 <p class="lead">Bookmarks is the easiest way to keep track of the websites you love.</p>
