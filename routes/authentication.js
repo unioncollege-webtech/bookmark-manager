@@ -5,7 +5,6 @@
  */
 var express = require('express');
 var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
 var User = require('../models/User');
 
 // Export a function that initializes the authentication config for our app.
@@ -14,7 +13,7 @@ exports.setup = function() {
     var router = express.Router();
 
     // Config passport with the methods from passport-local-mongoose
-    passport.use(new LocalStrategy(User.authenticate()));
+    passport.use(User.createStrategy());
     passport.serializeUser(User.serializeUser());
     passport.deserializeUser(User.deserializeUser());
 

@@ -9,20 +9,15 @@ exports.setup = function() {
     var router = express.Router();
 
     // Register Routes
-    router.get('/', listBookmarks);
+    router.get('/', list);
     router.all('/bookmarks/*', ensureAuthenticated('/login'));
     router.get('/bookmarks', function(req, res, next) {
         res.redirect('/');
     });
-    router.route('/bookmarks/add')
-        .get(newBookmark)
-        .post(saveBookmark);
-    router.get('/bookmarks/:bookmark', viewBookmark);
-    router.route('/bookmarks/:bookmark/edit')
-        .get(editBookmark)
-        .post(saveBookmark);
-    router.post('/bookmarks/:bookmark/delete', deleteBookmark);
-
+    router.route('/bookmarks/add').get(edit).post(save);
+    router.route('/bookmarks/:bookmark').get(view);
+    router.route('/bookmarks/:bookmark/edit').get(edit).post(save);
+    router.route('/bookmarks/:bookmark/delete').post(remove);
 
     /**
      * :bookmark - Find bookmark by id and store it on the request for
@@ -51,9 +46,9 @@ exports.setup = function() {
     });
 
     /**
-     * listBookmarks - Render the bookmarks as a list.
+     * list - Render the bookmarks as a list.
      */
-    function listBookmarks(req, res, next) {
+    function list(req, res, next) {
         if (req.user) {
             // Find all of the bookmarks and render newest to oldest
             req.user.findBookmarks().sort('-created').lean().exec(function(err, bookmarks) {
@@ -71,9 +66,9 @@ exports.setup = function() {
     }
 
     /**
-     * saveBookmark - Save a new bookmark or persist changes to an existing one.
+     * save - Save a new bookmark or persist changes to an existing one.
      */
-    function saveBookmark(req, res, next) {
+    function save(req, res, next) {
         if (!req.user) {
             // This shouldn't happen.
             return res.status(401).send("Not authorized.");
@@ -81,7 +76,7 @@ exports.setup = function() {
 
         // If they clicked the 'delete' button, delete the bookmark instead of save.
         if (req.body.action === 'delete') {
-            return deleteBookmark(req, res, next);
+            return remove(req, res, next);
         }
 
         var bookmark = req.bookmark;
@@ -133,9 +128,9 @@ exports.setup = function() {
     }
 
     /**
-     * deleteBookmark - Remove/delete a bookmark from the database.
+     * remove - Remove/delete a bookmark from the database.
      */
-    function deleteBookmark(req, res, next) {
+    function remove(req, res, next) {
         if (!req.user) {
             // This shouldn't happen.
             return res.status(401).send("Not authorized.");
@@ -165,30 +160,28 @@ exports.setup = function() {
     }
 
     /**
-     * newBookmark - Render a form for a new bookmark.
+     * edit - Render a form to edit an existing bookmark.
      */
-    function newBookmark(req, res, next) {
-        // Render an empty bookmark edit form.
-        res.render('bookmark_edit', {
-            title: "New bookmark",
-        });
-    }
-
-    /**
-     * editBookmark - Render a form to edit an existing bookmark.
-     */
-    function editBookmark(req, res, next) {
+    function edit(req, res, next) {
         var bookmark = req.bookmark;
-        res.render('bookmark_edit', {
-            title: "Edit bookmark: " + bookmark.title,
-            bookmark: bookmark
-        });
+        if (bookmark) {
+            res.render('bookmark_edit', {
+                title: "Edit bookmark: " + bookmark.title,
+                bookmark: bookmark
+            });
+        }
+        else {
+            // Render an empty bookmark edit form.
+            res.render('bookmark_edit', {
+                title: "New bookmark",
+            });
+        }
     }
 
     /**
-     * viewBookmark - Show the full details for an existing bookmark.
+     * view - Show the full details for an existing bookmark.
      */
-    function viewBookmark(req, res, next) {
+    function view(req, res, next) {
         var bookmark = req.bookmark;
         res.render('bookmark', {
             title: "Bookmark: " + bookmark.title,
