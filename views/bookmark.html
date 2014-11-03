@@ -7,19 +7,19 @@
 
   - `bookmark` : A Bookmark object containing the following properties:
 
-                 - `href`   : A String containing a fully-qualified URL to the
+                  - `_id`   : A String containing the internal identifier for
+                                the bookmark object.
+                  - `href`  : A String containing a fully-qualified URL to the
                                 bookmarked document or resource.
                   - `title` : A String containing a title, headline, or name of
                                 the resource at the destination url.
-                  - `i_d`    : A String containing the internal identifier for
-                                the bookmark object.
                   - `description` : A String containing a brief description of
-                                the bookmarked resource (optional).
+                                      the bookmarked resource (optional).
 --}}
 {{#bookmark}}
 <!-- Render the full details for a single bookmark -->
 <article class="bookmark">
-    <h1><a class="bookmark external" href="{{href}}" title="{{title}}">{{title}}</a></h1>
+    <h1><a class="bookmark external" href="{{href}}" title="{{title}}" target="_blank">{{title}}</a></h1>
     <h2><small>{{create_date}}</small></h2>
     {{#if description}}
     <p class="description">{{description}}</p>
