@@ -42,9 +42,7 @@ app.use(session({
 
 // Encode the bookmarklet function and make available to templates.
 var bookmarkletTemplate = hbs.handlebars.compile(bookmarklet.toString());
-app.locals.bookmarklet = encodeURIComponent(bookmarkletTemplate({
-    hostname: app.get('hostname')
-}));
+app.locals.bookmarklet = encodeURIComponent(bookmarkletTemplate(app.locals));
 
 // Set up our routes
 app.use(routes.setup(app));

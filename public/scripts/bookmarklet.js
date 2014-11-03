@@ -20,7 +20,7 @@ module.exports = function(d, url, title, desc, data, xhr) {
             alert('Bookmark saved successfully!');
         }
     };
-    xhr.open('POST', '//{{hostname}}/bookmarks/add');
+    xhr.open('POST', '//{{settings.hostname}}/bookmarks/add');
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.send(data);
 };
