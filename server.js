@@ -5,8 +5,7 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     cookieParser = require('cookie-parser'),
     session = require('express-session'),
-    bookmarklet = require('./public/scripts/bookmarklet'),
-    routes = require('./routes/');
+    bookmarklet = require('./public/scripts/bookmarklet');
 
 // Create a new express app.
 var app = express();
@@ -24,6 +23,9 @@ app.set('ip', process.env.IP || '127.0.0.1');
 app.set('dbhost', (process.env.IP || 'localhost'));
 app.set('dbname', 'bookmarks');
 
+// Connect to mongoose server.
+mongoose.connect('mongodb://' + app.get('dbhost') + '/' + app.get('dbname'));
+
 // Serve files in /public as static files
 app.use(express.static('public'));
 
@@ -37,7 +39,8 @@ app.use(cookieParser('Courage, dear heart.'));
 app.use(session({
     secret: 'What makes a king out of a slave? Courage!',
     resave: true,
-    saveUninitialized: true
+    saveUninitialized: true,
+    store: require('mongoose-session')(mongoose)
 }));
 
 // Encode the bookmarklet function and make available to templates.
@@ -45,10 +48,7 @@ var bookmarkletTemplate = hbs.handlebars.compile(bookmarklet.toString());
 app.locals.bookmarklet = encodeURIComponent(bookmarkletTemplate(app.locals));
 
 // Set up our routes
-app.use(routes.setup(app));
-
-// Connect to mongoose server.
-mongoose.connect('mongodb://' + app.get('dbhost') + '/' + app.get('dbname'));
+app.use(require('./routes/'));
 
 // Start the server
 var server = app.listen(app.get('port'), app.get('ip'), function() {

@@ -52,6 +52,15 @@ a.btn {
 .bookmark .description {
     white-space: pre-wrap;
 }
+.bookmark-form .collections .heading {
+    display: block;
+}
+.bookmark-form .collections label {
+  display: inline-block;
+  border: 1px solid #f6f6f6;
+  padding: 5px 10px 4px 2px;
+  border-radius: 2px;
+}
 .message {
     padding: .25em .5em;
 }

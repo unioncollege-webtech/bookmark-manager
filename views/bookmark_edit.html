@@ -3,16 +3,16 @@
   bookmark_edit — Render the edit form for a bookmark.
   ====================================================
   The 'bookmark' template renders a form for editing the details of a bookmark.
-  It will use a bookmark object if pro._ided, or an empty form otherwise.
+  It will use a bookmark object if provided, or an empty form otherwise.
 
   - `bookmark` : A Bookmark object containing the following properties:
 
+                 - `_id`    : A String containing the internal identifier for
+                               the bookmark object (optional).
                  - `href`   : A String containing a fully-qualified URL to the
                                bookmarked document or resource (optional).
                  - `title` : A String containing a title, headline, or name of
                                the resource at the destination url (optional).
-                 - ._id`    : A String containing the internal._identifier for
-                               the bookmark object (optional).
                  - `description` : A String containing a brief description of
                                the bookmarked resource (optional).
 --}}
@@ -26,10 +26,17 @@
         Title
         <input type="text" name="title" value="{{bookmark.title}}" placeholder="My Awesome Example Website" class="width-100">
     </label>
-    <label for="description">
+    <label>
         Description
         <textarea name="description">{{bookmark.description}}</textarea>
     </label>
+    <p class="collections">
+        <span class="heading">Add to Collection</span>
+        {{#collection_list}}
+            <label><input type="checkbox" name="collection" value="{{path}}" {{#if selected}}checked{{/if}}>{{name}}</label>
+        {{/collection_list}}
+        <input type="text" name="new_collection" placeholder="New collection">
+    </p>
     <p>
         <button type="submit" name="action" value="save" class="btn btn-green">Save</button>
         <a class="btn" href="/">Cancel</a>

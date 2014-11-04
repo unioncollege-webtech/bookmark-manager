@@ -1,5 +1,6 @@
-var mongoose = require('mongoose');
-var url = require('url');
+var mongoose = require('mongoose'),
+    Collection = require('./Collection'),
+    url = require('url');
 
 // Define the schema for a bookmark
 var schema = mongoose.Schema({
@@ -94,6 +95,14 @@ var schema = mongoose.Schema({
         ref: 'User',
         required: true,
         index: true
+    },
+    /**
+     * collections: An Array containing the path property of the collections
+     *              this bookmark is a part of.
+     */
+    collections: {
+        type: [String],
+        default: Array
     }
 });
 
@@ -141,6 +150,14 @@ schema.pre('save', function(next) {
     next();
 });
 
+schema.methods.getCollections = function(callback) {
+    return Collection.find({
+            user_id: this.user_id
+        })
+        .in('path', this.collections)
+        .lean()
+        .exec(callback);
+};
 // Export the model
 var Bookmark = mongoose.model('bookmark', schema);
 module.exports = Bookmark;
