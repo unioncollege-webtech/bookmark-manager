@@ -10,7 +10,7 @@ var router = module.exports = express.Router();
 router.use(function(req, res) {
     console.warn('404 Not Found: %s', req.originalUrl);
 
-    res.status(404).render('index', {
+    res.status(404).render('error', {
         notification: {
             severity: "error",
             message: "Oh noes! The page you requested doesn’t exist. That\
@@ -23,7 +23,7 @@ router.use(function(req, res) {
 router.use(function(err, req, res, next) {
     console.error(err);
 
-    res.status(500).render('index', {
+    res.status(500).render('error', {
         notification: {
             severity: "error",
             message: "I’m so sorry, but something is wrong and internal\

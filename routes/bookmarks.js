@@ -150,8 +150,15 @@ function saveNewCollection(req, res, next) {
     if (newCollection) {
         var collection = req.user.newCollection(newCollection);
         collection.save(function(err) {
-            req.body.new_collection = collection.path;
-            next(err);
+            if (err) {
+                // Fail silently:
+                console.log("Cannot save new collection: %s", err.message);
+                req.body.new_collection = '';
+            }
+            else {
+                req.body.new_collection = collection.path;
+            }
+            next();
         });
     }
     else {
