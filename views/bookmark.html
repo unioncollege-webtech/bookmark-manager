@@ -17,13 +17,5 @@
                                       the bookmarked resource (optional).
 --}}
 {{#bookmark}}
-<!-- Render the full details for a single bookmark -->
-<article class="bookmark">
-    <h1><a class="bookmark external" href="{{href}}" title="{{title}}" target="_blank">{{title}}</a></h1>
-    <h2><small>{{create_date}}</small></h2>
-    {{#if description}}
-    <p class="description">{{description}}</p>
-    {{/if}}
-    <p class="edit"><a class="btn" href="/bookmarks/{{_id}}/edit/">Edit</a></p>
-</article>
+  {{> bookmark_detail }}
 {{/bookmark}}

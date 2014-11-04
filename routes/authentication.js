@@ -26,8 +26,14 @@ router.use(function(req, res, next) {
         res.locals.user = {
             username: user.username
         };
+        user.getCollections(function(err, collections) {
+            res.locals.collections = collections;
+            return next(err);
+        });
     }
-    next();
+    else {
+        next();
+    }
 });
 
 // Render the registration form

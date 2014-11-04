@@ -1,5 +1,6 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
+    Bookmark = require('./Bookmark'),
     slugify = require('slugify');
 
 // Define the schema for a bookmark collection.
@@ -12,6 +13,11 @@ var schema = new Schema({
         type: String,
         required: true
     },
+    /**
+     * description - A String providing a more complete description of the
+     *               collection (optional).
+     */
+    description: String,
     /**
      * path - A String uniquely identifying the collection in a manner suitable
      *        for use as a URL path.
@@ -29,7 +35,26 @@ var schema = new Schema({
     }
 });
 
-schema.index({ user_id: 1, path: 1 }, { unique: true });
+schema.index({
+    user_id: 1,
+    path: 1
+}, {
+    unique: true
+});
+
+schema.methods.findBookmarks = function(callback) {
+    var query = Bookmark.find({
+        user_id: this.user_id,
+        collections: this.path
+    });
+
+    if (callback) {
+        return query.exec(callback);
+    }
+    else {
+        return query;
+    }
+};
 
 // Generate the `path` property before save.
 schema.pre('save', function(next) {

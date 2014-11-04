@@ -12,6 +12,15 @@
             <li><a href="/search" class="search">Search</a></li>
             <li><a href="/bookmarks/add" class="add">Add</a></li>
         {{/if}}
+        {{#if collections}}
+            <li class="subnav">Collections
+            <ul>
+                {{#collections}}
+                <li><a href="/collections/{{path}}">{{name}}</a></li>
+                {{/collections}}
+            </ul>
+            </li>
+        {{/if}}
         </ul>
     </nav>
     <nav class="navbar navbar-right">

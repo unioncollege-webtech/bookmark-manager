@@ -10,17 +10,10 @@ var router = module.exports = express.Router();
 
 // Register Routes
 router.get('/', list);
-
-// Middleware
-router.all('/bookmarks/*', ensureAuthenticated('/login'), function(req, res, next) {
-    req.user.getCollections(function(err, collections) {
-        res.locals.collections = collections;
-        next(err);
-    });
-});
 router.get('/bookmarks', function(req, res, next) {
     res.redirect('/');
 });
+router.use('/bookmarks/*', ensureAuthenticated('/login'));
 router.route('/bookmarks/add').get(edit).post(saveNewCollection, save);
 router.route('/bookmarks/:bookmark').get(view);
 router.route('/bookmarks/:bookmark/edit').get(edit).post(saveNewCollection, save);
@@ -33,6 +26,13 @@ router.route('/bookmarks/:bookmark/delete').post(remove);
 router.param("bookmark", function(req, res, next, id) {
     req.user.findBookmarkById(id, function(err, bookmark) {
         if (bookmark) {
+            bookmark.collection_list = res.locals.collections.reduce(function(list, collection) {
+                if (bookmark.collections.indexOf(collection.path) > -1) {
+                    collection.selected = true;
+                }
+                list.push(collection);
+                return list;
+            }, []);
             req.bookmark = bookmark;
             next();
         }
@@ -59,14 +59,14 @@ function list(req, res, next) {
     if (req.user) {
         // Find all of the bookmarks and render newest to oldest
         req.user.findBookmarks().sort('-created').lean().exec(function(err, bookmarks) {
-            res.render('index', {
+            res.render('home', {
                 title: "Bookmarks",
                 bookmarks: bookmarks
             });
         });
     }
     else {
-        res.render('index', {
+        res.render('home', {
             title: "Bookmarks - Welcome!"
         });
     }
@@ -150,15 +150,8 @@ function saveNewCollection(req, res, next) {
     if (newCollection) {
         var collection = req.user.newCollection(newCollection);
         collection.save(function(err) {
-            if (err) {
-                // Fail silently:
-                console.log("Cannot save new collection: %s", err.message);
-                req.body.new_collection = '';
-            }
-            else {
-                req.body.new_collection = collection.path;
-            }
-            next();
+            req.body.new_collection = collection.path;
+            next(err);
         });
     }
     else {
@@ -204,22 +197,10 @@ function remove(req, res, next) {
  */
 function edit(req, res, next) {
     var bookmark = req.bookmark;
-    var collections = res.locals.collections;
     if (bookmark) {
         res.render('bookmark_edit', {
             title: "Edit bookmark: " + bookmark.title,
-            bookmark: bookmark,
-            collection_list: (function(bookmark, collections) {
-                return collections.reduce(function(list, collection) {
-                    if (bookmark.collections.filter(function(item) {
-                        return item === collection.path;
-                    }).length > 0) {
-                        collection.selected = true;
-                    }
-                    list.push(collection);
-                    return list;
-                }, []);
-            })(bookmark, collections)
+            bookmark: bookmark
         });
     }
     else {

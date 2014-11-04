@@ -72,7 +72,7 @@ User.plugin(require('passport-local-mongoose'));
 User.methods.findBookmarks = function(callback) {
     var query = Bookmark.find({
         user_id: this._id
-    }).lean();
+    });
 
     if (callback) {
         return query.exec(callback);
@@ -277,7 +277,7 @@ User.methods.getCollection = function(path, callback) {
 User.methods.getCollections = function(callback) {
     return Collection.find({
         user_id: this._id
-    }, callback).lean();
+    }, callback);
 };
 
 // Export the User model

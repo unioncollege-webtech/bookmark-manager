@@ -16,7 +16,6 @@
                   - `description` : A String containing a brief description of
                                 the bookmarked resource (optional).
 --}}
-{{#bookmarks}}
 <!-- Render the full details for a single bookmark -->
 <article class="bookmark">
     <h1><a class="bookmark external" href="{{href}}" title="{{title}}">{{title}}</a></h1>
@@ -24,6 +23,12 @@
     {{#if description}}
     <p class="description">{{description}}</p>
     {{/if}}
+    <p class="collections">
+    {{#collection_list}}
+      {{#if selected}}
+        <a class="btn smaller btn-blue btn-round btn-outline" href="/collections/{{path}}">{{name}}</a>
+      {{/if}}
+    {{/collection_list}}
+    </p>
     <p class="edit"><a class="btn" href="/bookmarks/{{_id}}/edit/">Edit</a></p>
 </article>
-{{/bookmarks}}

@@ -13,7 +13,7 @@ router.use(function(req, res, next) {
     next();
 });
 
-// Register the routes in order:
+// Register the routes in order.
 [
     'authentication',
     'bookmarks',

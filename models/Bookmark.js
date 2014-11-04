@@ -1,5 +1,4 @@
 var mongoose = require('mongoose'),
-    Collection = require('./Collection'),
     url = require('url');
 
 // Define the schema for a bookmark
@@ -102,7 +101,8 @@ var schema = mongoose.Schema({
      */
     collections: {
         type: [String],
-        default: Array
+        default: Array,
+        index: true
     }
 });
 
@@ -150,14 +150,6 @@ schema.pre('save', function(next) {
     next();
 });
 
-schema.methods.getCollections = function(callback) {
-    return Collection.find({
-            user_id: this.user_id
-        })
-        .in('path', this.collections)
-        .lean()
-        .exec(callback);
-};
 // Export the model
 var Bookmark = mongoose.model('bookmark', schema);
 module.exports = Bookmark;
