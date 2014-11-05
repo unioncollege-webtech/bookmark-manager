@@ -5,6 +5,7 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     cookieParser = require('cookie-parser'),
     session = require('express-session'),
+    htmlMinifier = require('connect-html-minifier'),
     bookmarklet = require('./public/scripts/bookmarklet');
 
 // Create a new express app.
@@ -28,6 +29,19 @@ mongoose.connect('mongodb://' + app.get('dbhost') + '/' + app.get('dbname'));
 
 // Serve files in /public as static files
 app.use(express.static('public'));
+
+app.use(htmlMinifier({
+    removeComments: true,
+    collapseWhitespace: true,
+    conservativeCollapse: true,
+    collapseBooleanAttributes: true,
+    //removeRedundantAttributes: true,
+    //^ Causes issues with Kube's <input> styles.
+    removeEmptyAttributes: true,
+    removeOptionalTags: true,
+    minifyJS: true,
+    minifyCSS: true
+}));
 
 // Parse the body of 'post' requests
 app.use(bodyParser.urlencoded({

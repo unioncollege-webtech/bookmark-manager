@@ -20,6 +20,7 @@
   "dependencies": {
     "body-parser": "^1.9.0",
     "connect-ensure-login": "^0.1.1",
+    "connect-html-minifier": "^0.1.0",
     "cookie-parser": "^1.3.3",
     "express": "^4.9.5",
     "express-session": "^1.9.1",

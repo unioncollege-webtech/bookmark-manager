@@ -21,7 +21,9 @@
     <h1><a class="bookmark external" href="{{href}}" title="{{title}}">{{title}}</a></h1>
     <h2><small>{{create_date}}</small></h2>
     {{#if description}}
+    <!-- htmlmin:ignore -->
     <p class="description pre-wrap">{{description}}</p>
+    <!-- htmlmin:ignore -->
     {{/if}}
     <p class="collections">
     {{#collection_list}}
