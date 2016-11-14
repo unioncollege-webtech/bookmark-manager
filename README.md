@@ -4,8 +4,9 @@ Bookmark Manager is a simple bookmarking service to help you keep track of your 
 
 Each bookmark has the following properties:
 
-- _id - A String representing the system-generated unique identifier
-- url - A String containing the URL of the bookmarked item
+- _id - A system-generated unique identifier
+- href - A String containing the URL of the bookmarked item
+- title - A String containing a brief summary of the linked document
 - description - A String containing a plain-text description of the item
 - created - A Date representing the date and time the user created the bookmark
 
