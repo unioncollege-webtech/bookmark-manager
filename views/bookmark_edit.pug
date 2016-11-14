@@ -1,0 +1,26 @@
+extends layout.pug
+
+block body
+  h1=bookmark.title ? bookmark.title : "New Bookmark"
+
+  form.bookmark-form(method='POST')
+    label URL
+      input.width-100(type='url' name='url' value=bookmark.href required autofocus placeholder='http://www.example.com' title='A valid URL is required.')
+  
+    label Title
+      input.width-100(type='text' name='title' value=bookmark.title placeholder='My Awesome Example Website')
+  
+    label Description
+      textarea(name='description')= bookmark.description
+  
+    p
+      button.btn.btn-green(type='submit' name='action' value='save') Save
+      a.btn(href='/bookmarks/' + (bookmark._id || '')) Cancel
+  
+      if bookmark._id
+        button.btn.btn-red.right(
+          type='submit'
+          name='action'
+          value='delete'
+          onclick="return confirm('Are you sure you want to delete this bookmark?');"
+          ) Delete

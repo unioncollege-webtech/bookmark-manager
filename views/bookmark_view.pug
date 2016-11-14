@@ -1,0 +1,15 @@
+extends layout.pug
+
+block body
+  article.bookmark
+    if bookmark
+      h1
+        a.bookmark.external(href=bookmark.href, title=bookmark.title)= bookmark.title
+        
+      if bookmark.description
+        p.description.pre-wrap= bookmark.description
+        
+      p.edit
+        a.btn(href='/bookmarks/' + bookmark._id + '/edit') Edit
+    else  
+      h1 Bookmark not found.

@@ -1,0 +1,11 @@
+ul.bookmark-container
+
+each bookmark in bookmarks
+  li.bookmark
+    h2
+      a.bookmark.external(href=bookmark.href title=bookmark.title target="_blank")= bookmark.title
+      span 
+      small: a.details(href="/bookmarks/" + bookmark._id title=bookmark.title) details
+
+if bookmarks.length === 0
+  p.message.info No bookmarks found.

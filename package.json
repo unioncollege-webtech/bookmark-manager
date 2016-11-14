@@ -1,40 +1,29 @@
 {
-  "name": "bookmarks",
-  "version": "4.0.0",
-  "description": "Bookmarks is a simple, social bookmarking service to help you keep track of your favorite places on the web. It provides a simple and beautiful listing of bookmarks, and the capability to search, sort, tag, favorite, and share a collection of links.",
-  "main": "app.js",
+  "name": "bookmark-manager",
+  "version": "1.0.0",
+  "description": "Bookmark manager is a simple web application to help you keep track of your favorite places on the web. It provides a simple and beautiful listing of bookmarks, and the capability to search, sort, tag, favorite, and share a collection of links.",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "prepublish": "make"
+    "db": "./mongod",
+    "postinstall": "mkdir -p data",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/unioncollege-webtech/bookmarks.git"
+    "url": "https://github.com/unioncollege-webtech/bookmark-manager.git"
   },
   "author": "Benjamin Barber",
-  "license": "MIT",
+  "license": "ISC",
   "bugs": {
-    "url": "https://github.com/unioncollege-webtech/bookmarks/issues"
+    "url": "https://github.com/unioncollege-webtech/bookmark-manager/issues"
   },
-  "homepage": "https://github.com/unioncollege-webtech/bookmarks",
+  "homepage": "https://github.com/unioncollege-webtech/bookmark-manager",
   "dependencies": {
-    "body-parser": "^1.9.0",
-    "connect-ensure-login": "^0.1.1",
-    "connect-html-minifier": "^0.1.0",
-    "cookie-parser": "^1.3.3",
-    "express": "^4.9.5",
-    "express-session": "^1.9.1",
-    "hbs": "^2.7.0",
-    "hbs-utils": "0.0.3",
-    "mongoose": "^3.8.18",
-    "mongoose-session": "0.0.2",
-    "passport": "^0.2.1",
-    "passport-local": "^1.0.0",
-    "passport-local-mongoose": "^1.0.0",
-    "slugify": "^0.1.0"
-  },
-  "devDependencies": {
-    "clean-css": "^2.2.16",
-    "uncss": "^0.9.0"
+    "body-parser": "^1.15.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.14.0",
+    "mongoose": "^4.6.7",
+    "pug": "^2.0.0-beta6",
+    "serve-static": "^1.11.1"
   }
 }

@@ -6,7 +6,11 @@ body > main {
 }
 body > header {
     font-size: 1.1em;
-    background-color: #ddd;
+    border-bottom: 1px solid #ddd;
+}
+body > header a {
+    color: #999;
+    text-transform: uppercase;
 }
 header .navbar {
     margin-bottom: 0;
@@ -30,8 +34,7 @@ a:hover,
     text-decoration: underline;
     color: #2575ed;
 }
-a,
-a.btn {
+a {
     color: #333;
     text-decoration: none;
 }
@@ -47,19 +50,14 @@ a.btn {
 .pre-wrap {
     white-space: pre-wrap;
 }
+.lead {
+    font-style: italic;
+    font-weight: 300;
+}
 .bookmark-container {
     list-style: none;
     margin: 0;
     padding: 0;
-}
-.bookmark-form .collections .heading {
-    display: block;
-}
-.bookmark-form .collections label {
-  display: inline-block;
-  border: 1px solid #fafafa;
-  padding: 5px 10px 4px 2px;
-  border-radius: 2px;
 }
 .message {
     padding: .25em .5em;

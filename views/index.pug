@@ -1,0 +1,10 @@
+extends layout.pug
+
+block body
+  h1 Welcome to Bookmark Manager!
+  
+  p.lead Bookmark Manager is the easiest way to keep track of the websites you love.
+  
+  p: a.btn.btn-blue(href="/bookmarks/add") Add a bookmark
+  
+  include bookmark_list.pug
